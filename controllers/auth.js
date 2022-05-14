@@ -61,6 +61,33 @@ const facebookAuth = async (req, res) => {
   );
 };
 
+const facebookRedirect = async (req, res) => {
+  const fullUrl = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
+  const urlObj = new URL(fullUrl);
+  const urlParams = queryString.parse(urlObj.search);
+  const code = urlParams.code;
+  const tokenData = await axios({
+    url: "https://graph.facebook.com/v4.0/oauth/access_token",
+    method: "get",
+    params: {
+      client_id: process.env.FACEBOOK_CLIENT_ID,
+      client_secret: process.env.FACEBOOK_CLIENT_SECRET,
+      redirect_uri: "http://localhost:4000/auth/facebook-redirect/",
+      code,
+    },
+  });
+  const userData = await axios({
+    url: "https://graph.facebook.com/me",
+    method: "get",
+    params: {
+      fields: ["email", "first_name"].join(","),
+      access_token: tokenData.data.access_token,
+    },
+  });
+    return res.redirect(
+        `http://localhost:4000?email=${userData.data.email}`
+    )
+}
 
-module.exports = {googleAuth, googleRedirect}
+module.exports = {googleAuth, googleRedirect, facebookAuth, facebookRedirect}
     
