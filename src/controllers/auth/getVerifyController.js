@@ -21,7 +21,7 @@ const getVerifyController = async (req, res, next) => {
       subject: 'Nodemailer Test',
       text: 'Ваша почта успешно подтверждена. Регистрация завершена!',
     };
-    nodemailerSendMsg(msg);
+    // nodemailerSendMsg(msg);
 
     res.status(200).json({
       status: 'success',

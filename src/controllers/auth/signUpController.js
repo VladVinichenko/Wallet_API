@@ -41,6 +41,7 @@ const signUpController = async (req, res, next) => {
     data: {
       user: {
         email,
+        verificationLink: `${HOST}/api/auth/verify/${verificationToken}`, // Временная ссылка пока не сделаем нормально
       },
     },
   });
