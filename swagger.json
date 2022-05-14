@@ -1,0 +1,214 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.0",
+    "title": "Wallet API docs",
+    "description": "API documentation for Team project 'Wallet'. [Backend github repository](https://github.com/VladVinichenko/Wallet_API) ",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "servers": [
+        { "url": "https://wallet.global" }
+        ],
+    "tags": [
+    {
+      "name": "Users management",
+      "description": "endpoints"
+    },
+    {
+      "name": "Transactions management",
+      "description": "endpoints"
+    },
+    {
+      "name": "Receiving transactions",
+      "description": "endpoints"
+    }
+    ],
+    "paths": {
+    "/auth/signup": {
+      "post": {
+        "tags": ["Users management"],
+        "summary": "User registration",
+        "parameters": [],
+        "requestBody": {
+        "description": "Registration's object",
+        "required": true,
+        "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+                }
+            }
+        }
+        }
+        }
+    },
+    "/auth/signin": {
+      "post": {
+        "tags": ["Users management"],
+        "summary": "User authentication",
+        "parameters": [],
+        "requestBody": {
+          "description": "Authentication's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SigninRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SigninResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Email not found / Email not verified / Password is wrong",
+            "content": {}
+          },
+          "402": {
+            "description": "Email doesn't exist / Password is wrong",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/auth/signout": {
+      "get": {
+        "tags": ["Users management"],
+        "summary": "Signout",
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "Successful operation",
+            "content": {}
+          },
+          "400": {
+            "description": "No token provided",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
+            "content": {}
+          },
+          "404": {
+            "description": "Invalid user / Invalid session",
+            "content": {}
+          }
+        }
+      }
+    }
+    },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "409": {
+            "description": "Provided email already exists",
+            "content": {}
+          }
+        },
+    "components": {
+    "schemas": {
+      "RegistrationRequest": {
+        "required": ["email", "password", "username"],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "minLength": 3,
+            "maxLength": 254
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qazwsxedc",
+            "minLength": 8,
+            "maxLength": 100
+          },
+          "username": {
+            "type": "string",
+            "description": "User's name",
+            "minLength": 2,
+            "maxLength": 100,
+            "example": "Guest"
+          }
+        }
+      },
+      "RegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "username": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Guest"
+          },
+          "id": {
+            "type": "string",
+            "description": "User's id",
+            "example": "432f2f72bcf86cd756436081"
+          }
+        }
+      },
+      "LoginRequest": {
+        "required": ["email", "password"],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "minLength": 3,
+            "maxLength": 254
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "minLength": 8,
+            "maxLength": 100,
+            "example": "qazwsxedc"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "description": "Session's access token (needed for all requests)",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1ZmMyMDg1YmQwOTM2NTI4MTA3Y2UyNzQiLCJzaWQiOiI1ZmMyZDJmY2UxZDIwNTA2NzAyYmRkMjIiLCJpYXQiOjE2MDY2MDM1MTYsImV4cCI6MTYwNjYwNzExNn0.rJ_QjU4KvA76H96RHsvOBChK0Vjbd0NmqjMxdQVJIXA"
+          }}}
+        }
+    }
+}
