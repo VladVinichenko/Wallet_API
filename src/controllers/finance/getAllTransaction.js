@@ -9,7 +9,7 @@ const getAllTransaction = async (req, res) => {
     status: 'OK',
     code: 200,
     message: 'All Transaction',
-    data: { ...listTransaction },
+    data: listTransaction,
   });
 };
 
