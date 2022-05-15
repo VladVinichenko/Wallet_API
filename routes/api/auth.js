@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const tryCatchWrapper = require("../../wrapper/try-catch")
 
 const {
   googleAuth,
@@ -11,9 +10,9 @@ const {
 
 
 
-router.get("/google", tryCatchWrapper(googleAuth));
-router.get("/google-redirect", tryCatchWrapper(googleRedirect));
-router.get("/facebook", tryCatchWrapper(facebookAuth));
-router.get("/facebook-redirect", tryCatchWrapper(facebookRedirect));
+router.get("/google", googleAuth);
+router.get("/google-redirect", googleRedirect);
+router.get("/facebook", facebookAuth);
+router.get("/facebook-redirect", facebookRedirect);
 
 module.exports = router;
