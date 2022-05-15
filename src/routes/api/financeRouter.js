@@ -1,10 +1,8 @@
 const express = require("express");
 
-// const {
-//   authMiddleware,
-//   validationMiddleware,
-// } = require("../../middlewares/index");
-
+ const {authMiddleware,validationMiddleware,} = require("../../middlewares/index");
+const { ctrlWrapper } = require('../../helpers');
+const {addTransaction, getTransactions,  getStatisticsCtrl }=require('../../controllers/finance')
 // const {
 //   getContactsController,
 //   getContactByIdController,
@@ -18,6 +16,9 @@ const express = require("express");
 
 const router = express.Router();
 
+router.post('/add', authMiddleware, ctrlWrapper(addTransaction))
+router.get('/', authMiddleware, ctrlWrapper(getTransactions))
+router.get('/statistics', authMiddleware, ctrlWrapper(getStatisticsCtrl))
 // router.get("/", authMiddleware, getContactsController);
 
 // router.get("/:id", getContactByIdController);
