@@ -90,4 +90,3 @@ const facebookRedirect = async (req, res) => {
 }
 
 module.exports = {googleAuth, googleRedirect, facebookAuth, facebookRedirect}
-    
