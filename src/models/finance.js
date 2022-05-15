@@ -1,6 +1,5 @@
 const { Schema, model } = require('mongoose');
 
-
 const trSchema = Schema({
     type: {
     type: String,
@@ -8,12 +7,11 @@ const trSchema = Schema({
     enum: ["outlay", "income"],
     },
     category: {
-        type: String,
+        type: Object,
         required: [true],
-        enum: ["basic", "foodstuff",'car','careofyourself','children','household','education','leisure','other','regularIncome', 'irregularIncome'], 
     },
     sum: {
-        type: Number,
+        type: String,
         required: [true],
 
     },
@@ -30,12 +28,9 @@ const trSchema = Schema({
       required:true,
     },
     balance: {
-        type: Number
+        type: String
     }
-
- 
 }, { versionKey: false, timestamps: true })
-
 
 
 const Transaction = model('transaction', trSchema)
