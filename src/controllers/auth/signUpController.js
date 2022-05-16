@@ -8,7 +8,7 @@ const { User } = require('../../models/index');
 const HOST = process.env.HOST;
 
 const signUpController = async (req, res, next) => {
-  const { email, password } = req.body;
+  const { name, email, password } = req.body;
   const user = await User.findOne({ email });
 
   if (user) {
@@ -19,6 +19,7 @@ const signUpController = async (req, res, next) => {
   const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
   await User.create({
+    name,
     email,
     password: hashPassword,
     verificationToken,
