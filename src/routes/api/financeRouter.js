@@ -7,8 +7,8 @@ const express = require('express');
 const { authMiddleware } = require('../../middlewares/index');
 const {
   getAllTransaction,
-    getTotal,
-  getCategories
+  getTotal,
+  getCategories,
   //   addContactController,
   //   removeContactByIdController,
   //   putContactController,
@@ -21,7 +21,7 @@ const router = express.Router();
 
 router.get('/', authMiddleware, getAllTransaction.getAllTransaction);
 router.get('/total-finance', authMiddleware, getTotal.getTotal);
-router.get('/categories', getCategories)
+router.get('/categories', getCategories.getCategories);
 // router.get("/:id", getContactByIdController);
 
 // router.post(
