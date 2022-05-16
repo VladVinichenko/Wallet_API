@@ -9,7 +9,10 @@ const categorySchema = Schema(
       type: String,
       required: [true],
     },
-    
+     id: {
+           type: String,
+      required: [true], 
+        }
   },
   { versionKey: false, timestamps: true },
 );
