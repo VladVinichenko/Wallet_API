@@ -2,8 +2,6 @@ const { User } = require('../../models/index');
 
 const { SendMsg } = require('../../services/index');
 
-const defaultVerificationLink = process.env.defaultVerificationLink;
-
 const getVerifyController = async (req, res, next) => {
   const { verificationToken } = req.params;
 
@@ -30,8 +28,6 @@ const getVerifyController = async (req, res, next) => {
       text: 'Ваша почта успешно подтверждена. Регистрация завершена!',
     };
     SendMsg(msg);
-
-    res.redirect(defaultVerificationLink, 302);
   }
 };
 
