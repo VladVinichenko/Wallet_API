@@ -14,6 +14,7 @@ const {
   //   putContactController,
   //   patchContactController,
 } = require('../../controllers/finance');
+const { ctrlWrapper}= require('../../helpers/ctrlWrapper')
 
 // const { joiSchema } = require("../../models/contact");
 
@@ -21,7 +22,7 @@ const router = express.Router();
 
 router.get('/', authMiddleware, getAllTransaction.getAllTransaction);
 router.get('/total-finance', authMiddleware, getTotal.getTotal);
-router.get('/statistics', authMiddleware, getStatisticsCtrl)
+router.get('/statistics', authMiddleware, ctrlWrapper(getStatisticsCtrl))
 // router.get("/:id", getContactByIdController);
 
 // router.post(

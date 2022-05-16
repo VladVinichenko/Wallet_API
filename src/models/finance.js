@@ -9,7 +9,7 @@ const trSchema = Schema(
       enum: ['outlay', 'income'],
     },
     category: {
-      type: Object,
+      type: String,
       required: [true],
     },
     sum: {
