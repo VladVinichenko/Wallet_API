@@ -23,14 +23,7 @@ const getVerifyController = async (req, res, next) => {
     };
     SendMsg(msg);
 
-    res
-      .status(200)
-      .json({
-        status: 'success',
-        code: 200,
-        message: 'Verification successful',
-      })
-      .redirect(defaultVerificationLink);
+    res.redirect(defaultVerificationLink, 302);
   }
 
   if (!user) {
