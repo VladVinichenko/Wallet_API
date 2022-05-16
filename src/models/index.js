@@ -1,4 +1,4 @@
 const { Finance } = require('./finance');
 const { User } = require('./user');
-
-module.exports = { Finance, User };
+const { Category} = require('./categories')
+module.exports = { Finance, User, Category };
