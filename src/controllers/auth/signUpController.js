@@ -12,7 +12,7 @@ const signUpController = async (req, res, next) => {
   const user = await User.findOne({ email });
 
   if (user) {
-    res.status(409).json(Conflict(`User with ${email} already exist`));
+    return res.status(409).json(Conflict(`User with ${email} already exist`));
   }
 
   const verificationToken = v4();

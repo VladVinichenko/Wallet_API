@@ -8,6 +8,14 @@ const getVerifyController = async (req, res, next) => {
   const { verificationToken } = req.params;
 
   const user = await User.findOne({ verificationToken });
+  if (!user) {
+    return res.status(404).json({
+      status: 'error',
+      code: 404,
+      message: `User not found`,
+    });
+  }
+
   if (user) {
     await User.findOneAndUpdate(
       { verificationToken },
@@ -24,14 +32,6 @@ const getVerifyController = async (req, res, next) => {
     SendMsg(msg);
 
     res.redirect(defaultVerificationLink, 302);
-  }
-
-  if (!user) {
-    res.status(404).json({
-      status: 'error',
-      code: 404,
-      message: `User not found`,
-    });
   }
 };
 
