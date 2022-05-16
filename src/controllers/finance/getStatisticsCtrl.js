@@ -1,5 +1,5 @@
 const { Transaction} = require('../../models')
-const { Conflict, Unauthorized, NotFound, BadRequest } = require('http-errors');
+/* const { Conflict, Unauthorized, NotFound, BadRequest } = require('http-errors'); */
 
 
 
@@ -15,7 +15,6 @@ function listByDate  (trlist, month, year)  {
          const trMonth = tr.date.getMonth()+1
         return trMonth === searchMonth
     })
-   /*  console.log('monthList',monthList) */
     return monthList
 }
 
@@ -45,12 +44,6 @@ function getStatisticsByCategory (monthList)  {
     console.log('statisticsByCategory',statisticsByCategory)
     return  statisticsByCategory
 }
-
-
-/*  const categories = [ 'basic', 'foodstuff',  'car', 'careofyourself',
-  'children',  'household',  'education',
-    'leisure', 'other']
- */
 
 
 
