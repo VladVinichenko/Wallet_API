@@ -24,7 +24,7 @@ const router = express.Router();
 router.get('/', authMiddleware, getAllTransaction.getAllTransaction);
 router.get('/total-finance', authMiddleware, getTotal.getTotal);
 router.get('/statistics', authMiddleware, ctrlWrapper(getStatisticsCtrl))
-router.get('/categories', ctrlWrapper(getCategories))
+router.get('/categories', getCategories.getCategories);
 // router.get("/:id", getContactByIdController);
 
 // router.post(

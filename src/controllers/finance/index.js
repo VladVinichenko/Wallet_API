@@ -5,6 +5,6 @@ const getCategories = require('./getCategories')
 module.exports = {
   getAllTransaction,
   getTotal,
+  getCategories,
   getStatisticsCtrl,
-  getCategories
 };
