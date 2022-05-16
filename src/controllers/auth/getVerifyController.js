@@ -1,12 +1,19 @@
 const { User } = require('../../models/index');
 
-const { nodemailerSendMsg } = require('../../services/index');
-const VerificationEmail = process.env.EMAIL;
+const { SendMsg } = require('../../services/index');
 
 const getVerifyController = async (req, res, next) => {
   const { verificationToken } = req.params;
 
   const user = await User.findOne({ verificationToken });
+  if (!user) {
+    return res.status(404).json({
+      status: 'error',
+      code: 404,
+      message: `User not found`,
+    });
+  }
+
   if (user) {
     await User.findOneAndUpdate(
       { verificationToken },
@@ -16,26 +23,11 @@ const getVerifyController = async (req, res, next) => {
       },
     );
     const msg = {
-      from: VerificationEmail,
       to: user.email,
-      subject: 'Nodemailer Test',
+      subject: 'Mail Auth',
       text: 'Ваша почта успешно подтверждена. Регистрация завершена!',
     };
-    // nodemailerSendMsg(msg);
-
-    res.status(200).json({
-      status: 'success',
-      code: 200,
-      message: 'Verification successful',
-    });
-  }
-
-  if (!user) {
-    res.status(404).json({
-      status: 'error',
-      code: 404,
-      message: `User not found`,
-    });
+    SendMsg(msg);
   }
 };
 

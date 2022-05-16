@@ -1,5 +1,8 @@
 const { getStatisticsCtrl } = require('./getStatisticsCtrl');
-const { getTransactionsCtrl } = require('./getTransactionsCtrl');
-const { addTransactionCtrl} = require('./addTransactionsCtrl')
-
-module.exports = {getStatisticsCtrl, getTransactionsCtrl, addTransactionCtrl}
+const getAllTransaction = require('./getAllTransaction');
+const getTotal = require('./getTotal');
+module.exports = {
+  getAllTransaction,
+  getTotal,
+  getStatisticsCtrl
+};

@@ -1,26 +1,27 @@
-const express = require("express");
+const express = require('express');
 
- const {authMiddleware,validationMiddleware,} = require("../../middlewares/index");
-const { ctrlWrapper } = require('../../helpers');
-const {getTransactionsCtrl, addTransactionCtrl,  getStatisticsCtrl }=require('../../controllers/finance')
 // const {
-//   getContactsController,
-//   getContactByIdController,
-//   addContactController,
-//   removeContactByIdController,
-//   putContactController,
-//   patchContactController,
-// } = require("../../controllers/contacts/index");
+//   authMiddleware,
+//   validationMiddleware,
+// } = require("../../middlewares/index");
+const { authMiddleware } = require('../../middlewares/index');
+const {
+  getAllTransaction,
+    getTotal,
+  getStatisticsCtrl
+  //   addContactController,
+  //   removeContactByIdController,
+  //   putContactController,
+  //   patchContactController,
+} = require('../../controllers/finance');
 
 // const { joiSchema } = require("../../models/contact");
 
 const router = express.Router();
 
-router.post('/add', authMiddleware, ctrlWrapper(addTransactionCtrl))
-router.get('/', authMiddleware, ctrlWrapper(getTransactionsCtrl))
-router.get('/statistics', authMiddleware, ctrlWrapper(getStatisticsCtrl))
-// router.get("/", authMiddleware, getContactsController);
-
+router.get('/', authMiddleware, getAllTransaction.getAllTransaction);
+router.get('/total-finance', authMiddleware, getTotal.getTotal);
+router.get('/statistics', authMiddleware, getStatisticsCtrl)
 // router.get("/:id", getContactByIdController);
 
 // router.post(

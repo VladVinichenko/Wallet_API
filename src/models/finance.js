@@ -1,38 +1,42 @@
 const { Schema, model } = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
-const trSchema = Schema({
+const trSchema = Schema(
+  {
     type: {
-    type: String,
-        required: [true],
-    enum: ["outlay", "income"],
+      type: String,
+      required: [true],
+      enum: ['outlay', 'income'],
     },
     category: {
-        type: Object,
-        required: [true],
+      type: Object,
+      required: [true],
     },
     sum: {
-        type: String,
-        required: [true],
-
+      type: String,
+      required: [true],
     },
     date: {
-        type: Date,
-        required: true
+      type: Date,
+      required: true,
     },
     comment: {
-        type: String
+      type: String,
     },
     owner: {
-        type: Schema.Types.ObjectId,
-        ref: 'user',
-      required:true,
+      type: Schema.Types.ObjectId,
+      ref: 'user',
+      required: true,
     },
     balance: {
-        type: String
-    }
-}, { versionKey: false, timestamps: true })
+      type: String,
+    },
+  },
+  { versionKey: false, timestamps: true },
+);
 
+trSchema.plugin(mongoosePaginate);
 
-const Transaction = model('transaction', trSchema)
+const Transaction = model('transaction', trSchema);
 
-module.exports = { Transaction }
+module.exports = { Transaction };
