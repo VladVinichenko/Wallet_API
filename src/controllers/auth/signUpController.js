@@ -13,6 +13,7 @@ const signUpController = async (req, res, next) => {
 
   if (user) {
     res.status(409).json(Conflict(`User with ${email} already exist`));
+    next();
   }
 
   const verificationToken = v4();
