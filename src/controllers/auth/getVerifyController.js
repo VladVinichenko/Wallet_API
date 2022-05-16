@@ -9,12 +9,11 @@ const getVerifyController = async (req, res, next) => {
 
   const user = await User.findOne({ verificationToken });
   if (!user) {
-    res.status(404).json({
+    return res.status(404).json({
       status: 'error',
       code: 404,
       message: `User not found`,
     });
-    next();
   }
 
   if (user) {
