@@ -6,7 +6,7 @@ const getCategories = async (req, res, next) => {
     res.status(200).json({
     status: 'OK',
     code: 200,
-    message: 'All Transaction',
+    message: 'All Categories',
     data: result,
   });
 }
