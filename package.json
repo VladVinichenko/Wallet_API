@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./bin/server.js",
-    "start:dev": "cross-env NODE_ENV=development nodemon ./bin/server.js",
+    "dev": "cross-env NODE_ENV=development nodemon ./bin/server.js",
     "lint": "eslint **/*.js",
     "lint:fix": "eslint --fix **/*.js"
   },
   "dependencies": {
+    "@sendgrid/mail": "^7.6.2",
     "bcrypt": "5.0.1",
     "cors": "2.8.5",
     "cross-env": "7.0.3",
@@ -18,9 +19,10 @@
     "joi": "17.6.0",
     "jsonwebtoken": "8.5.1",
     "mongoose": "6.3.3",
+    "mongoose-paginate-v2": "^1.6.3",
     "morgan": "1.10.0",
-    "uuid": "^8.3.2",
-    "nodemailer": "^6.7.5"
+    "nodemailer": "^6.7.5",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "eslint": "8.15.0",

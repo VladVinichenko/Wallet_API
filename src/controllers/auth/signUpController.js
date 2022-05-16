@@ -2,11 +2,10 @@ const bcrypt = require('bcrypt');
 
 const { v4 } = require('uuid');
 const { Conflict } = require('http-errors');
-const { nodemailerSendMsg } = require('../../services/index');
+const { SendMsg } = require('../../services/index');
 const { User } = require('../../models/index');
 
 const HOST = process.env.HOST;
-const VerificationEmail = process.env.EMAIL;
 
 const signUpController = async (req, res, next) => {
   const { email, password } = req.body;
@@ -26,14 +25,13 @@ const signUpController = async (req, res, next) => {
   });
 
   const msg = {
-    from: VerificationEmail,
     to: email,
-    subject: 'Nodemailer Test',
+    subject: 'Mail Auth',
     text: `Перейди по ссылке ${HOST}/api/auth/verify/${verificationToken} для верификации`,
     html: `Перейди по <a href="${HOST}/api/auth/verify/${verificationToken}">ссылке</a> для верификации`,
   };
 
-  //   nodemailerSendMsg(msg);
+  SendMsg(msg);
 
   res.status(201).json({
     status: 'success',
@@ -41,7 +39,6 @@ const signUpController = async (req, res, next) => {
     data: {
       user: {
         email,
-        verificationLink: `${HOST}/api/auth/verify/${verificationToken}`, // Временная ссылка пока не сделаем нормально
       },
     },
   });
