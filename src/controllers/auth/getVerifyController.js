@@ -2,6 +2,8 @@ const { User } = require('../../models/index');
 
 const { SendMsg } = require('../../services/index');
 
+const defaultVerificationLink = process.env.defaultVerificationLink;
+
 const getVerifyController = async (req, res, next) => {
   const { verificationToken } = req.params;
 
@@ -21,11 +23,14 @@ const getVerifyController = async (req, res, next) => {
     };
     SendMsg(msg);
 
-    res.status(200).json({
-      status: 'success',
-      code: 200,
-      message: 'Verification successful',
-    });
+    res
+      .status(200)
+      .json({
+        status: 'success',
+        code: 200,
+        message: 'Verification successful',
+      })
+      .redirect(defaultVerificationLink);
   }
 
   if (!user) {
