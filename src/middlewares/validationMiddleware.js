@@ -3,10 +3,11 @@ const validationMiddleware = schema => async (req, res, next) => {
     await schema.validateAsync(req.body);
     next();
   } catch (error) {
-    return res.status(400).json({
+    res.status(400).json({
       status: error.details,
       code: 400,
     });
+    next(error);
   }
 
   // return (req, res, next) => {
