@@ -1,7 +1,6 @@
 const { User } = require('../../models/index');
 
-const { nodemailerSendMsg } = require('../../services/index');
-const VerificationEmail = process.env.EMAIL;
+const { SendMsg } = require('../../services/index');
 
 const getVerifyController = async (req, res, next) => {
   const { verificationToken } = req.params;
@@ -16,12 +15,11 @@ const getVerifyController = async (req, res, next) => {
       },
     );
     const msg = {
-      from: VerificationEmail,
       to: user.email,
-      subject: 'Nodemailer Test',
+      subject: 'Mail Auth',
       text: 'Ваша почта успешно подтверждена. Регистрация завершена!',
     };
-    // nodemailerSendMsg(msg);
+    SendMsg(msg);
 
     res.status(200).json({
       status: 'success',
