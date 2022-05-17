@@ -19,7 +19,7 @@ function listByDate  (trlist, month, year)  {
 }
 
 function countStatistics(list) { 
-return list.map(tr => tr.sum).reduce((acc, value) => { 
+return list.map(tr => Number(tr.sum)).reduce((acc, value) => { 
         const sum = acc + value;
         return sum
          
@@ -38,7 +38,7 @@ function getStatisticsByCategory (monthList)  {
     const outlayCategoryList = outlayList.map(tr => tr.category).filter((val, ind, arr) => arr.indexOf(val) === ind);
     const filterTrListByCategories = outlayCategoryList.map(cat => outlayList.filter(el => cat === el.category))
      const statisticsByCategory=  filterTrListByCategories.map(arr => { 
-        const sum = arr.map(tr => tr.sum).reduce((acc, value) => acc + value, 0)
+        const sum = arr.map(tr => Number(tr.sum)).reduce((acc, value) => acc + value, 0)
         return { category: arr[0].category, sum }
     })
     console.log('statisticsByCategory',statisticsByCategory)
