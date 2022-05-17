@@ -9,7 +9,7 @@ const trSchema = Schema(
       enum: ['outlay', 'income'],
     },
     category: {
-      type: Object,
+      type: String,
       required: [true],
     },
     sum: {
@@ -37,6 +37,6 @@ const trSchema = Schema(
 
 trSchema.plugin(mongoosePaginate);
 
-const Transaction = model('transaction', trSchema);
+const Finance = model('transaction', trSchema);
 
-module.exports = { Transaction };
+module.exports = { Finance };

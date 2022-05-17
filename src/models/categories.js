@@ -8,7 +8,7 @@ const categorySchema = Schema(
     color: {
       type: String,
       required: [true],
-    },
+    }
   },
   { versionKey: false, timestamps: true },
 );
