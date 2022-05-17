@@ -17,7 +17,7 @@ const trSchema = Schema(
       required: [true],
     },
     date: {
-      type: Number,
+      type: Date,
       required: true,
     },
     comment: {
