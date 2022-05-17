@@ -37,6 +37,6 @@ const trSchema = Schema(
 
 trSchema.plugin(mongoosePaginate);
 
-const Transaction = model('transaction', trSchema);
+const Finance = model('transaction', trSchema);
 
-module.exports = { Transaction };
+module.exports = { Finance };

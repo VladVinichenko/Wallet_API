@@ -1,4 +1,4 @@
-const { Transaction} = require('../../models')
+const { Finance} = require('../../models')
 /* const { Conflict, Unauthorized, NotFound, BadRequest } = require('http-errors'); */
 
 
@@ -52,7 +52,9 @@ const getStatisticsCtrl = async (req, res) => {
     const { _id } = req.user;  
     const { month, year } = req.query
     
-    const transactionsList = await Transaction.find({ owner: _id })
+    const transactionsList = await Finance.find({ owner: _id })
+
+
 
 const monthList = listByDate(transactionsList, month,year)
    
