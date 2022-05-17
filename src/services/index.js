@@ -1,3 +1,3 @@
-const nodemailerSendMsg = require('./nodemailer/nodemailerSendMsg');
+const SendMsg = require('./mailer/SendMsg');
 
-module.exports = { nodemailerSendMsg };
+module.exports = { SendMsg };

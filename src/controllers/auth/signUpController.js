@@ -2,38 +2,37 @@ const bcrypt = require('bcrypt');
 
 const { v4 } = require('uuid');
 const { Conflict } = require('http-errors');
-const { nodemailerSendMsg } = require('../../services/index');
+const { SendMsg } = require('../../services/index');
 const { User } = require('../../models/index');
 
-const HOST = process.env.HOST;
-const VerificationEmail = process.env.EMAIL;
+const defaultVerificationLink = process.env.defaultVerificationLink;
 
 const signUpController = async (req, res, next) => {
-  const { email, password } = req.body;
+  const { name, email, password } = req.body;
   const user = await User.findOne({ email });
 
   if (user) {
-    res.status(409).json(Conflict(`User with ${email} already exist`));
+    return res.status(409).json(Conflict(`User with ${email} already exist`));
   }
 
   const verificationToken = v4();
   const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
   await User.create({
+    name,
     email,
     password: hashPassword,
     verificationToken,
   });
 
   const msg = {
-    from: VerificationEmail,
     to: email,
-    subject: 'Nodemailer Test',
-    text: `Перейди по ссылке ${HOST}/api/auth/verify/${verificationToken} для верификации`,
-    html: `Перейди по <a href="${HOST}/api/auth/verify/${verificationToken}">ссылке</a> для верификации`,
+    subject: 'Mail Auth',
+    text: `Перейди по ссылке ${defaultVerificationLink}/verify/${verificationToken} для верификации`,
+    html: `Перейди по <a href="${defaultVerificationLink}/verify/${verificationToken}">ссылке</a> для верификации`,
   };
 
-  //   nodemailerSendMsg(msg);
+  SendMsg(msg);
 
   res.status(201).json({
     status: 'success',
@@ -41,7 +40,6 @@ const signUpController = async (req, res, next) => {
     data: {
       user: {
         email,
-        verificationLink: `${HOST}/api/auth/verify/${verificationToken}`, // Временная ссылка пока не сделаем нормально
       },
     },
   });

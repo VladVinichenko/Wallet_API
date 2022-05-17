@@ -3,6 +3,9 @@ const Joi = require('joi');
 
 const userSchema = Schema(
   {
+    name: {
+      type: String,
+    },
     email: {
       type: String,
       required: [true, 'Email is required'],
@@ -32,6 +35,7 @@ const userSchema = Schema(
 );
 
 const joiSchema = Joi.object({
+  name: Joi.string().min(1).max(12),
   email: Joi.string().email().min(10).max(63).required(),
   password: Joi.string().min(6).max(16).required(),
 });

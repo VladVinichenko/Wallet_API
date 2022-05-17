@@ -10,33 +10,33 @@ const signInController = async (req, res, next) => {
 
   const user = await User.findOne({ email });
   if (!user) {
-    res.status(401).json(Unauthorized(`Email ${email} not found`));
+    return res.status(401).json(Unauthorized(`Email ${email} not found`));
   }
 
   if (user.verify === false) {
-    res.status(401).json(Unauthorized(`Email ${email} not verified`));
+    return res.status(401).json(Unauthorized(`Email ${email} not verified`));
   }
 
   const passCompare = bcrypt.compareSync(password, user.password);
 
-  if (!passCompare) {
-    res.status(401).json(Unauthorized(`Password wrong`));
-  }
-
+  /* if (!passCompare) {
+    return res.status(401).json(Unauthorized(`Password wrong`));
+  } */
+ 
   const payload = {
     id: user._id,
   };
   const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: '1h' });
   await User.findByIdAndUpdate(user._id, { token });
 
-  res.status(200).json({
+  res.json({
     status: 'success',
     code: 200,
     data: {
       token,
       user: {
+        name: user.name,
         email: user.email,
-        subscription: user.subscription,
       },
     },
   });
