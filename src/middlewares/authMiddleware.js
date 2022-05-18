@@ -8,7 +8,7 @@ const authMiddleware = async (req, res, next) => {
     const token = req.get('Authorization')?.split(' ')[1];
 
     if (token === undefined) {
-      return res.status(401).json(Unauthorized('No authorization token'));
+      return res.status(401).json(Unauthorized('Not authorized'));
     }
 
     const { id } = jwt.verify(token, JWT_SECRET_KEY);
@@ -21,9 +21,7 @@ const authMiddleware = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    if (error.message === 'Invalid signature') {
-      error.status = 401;
-    }
+    res.status(401).json(Unauthorized('Not authorized'));
     next(error);
   }
 };
