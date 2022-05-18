@@ -22,12 +22,14 @@ const signInController = async (req, res, next) => {
   /* if (!passCompare) {
     return res.status(401).json(Unauthorized(`Password wrong`));
   } */
- 
+
   const payload = {
     id: user._id,
   };
-  const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: '1h' });
-  await User.findByIdAndUpdate(user._id, { token });
+  const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: 300 });
+  const refreshToken = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: '1h' });
+
+  await User.findByIdAndUpdate(user._id, { token, refreshToken });
 
   res.json({
     status: 'success',
