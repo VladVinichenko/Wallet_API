@@ -1,0 +1,853 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "version": "1.0.0",
+      "title": "Wallet API docs",
+      "description": "API documentation for Team project 'Wallet'. [Backend github repository](https://github.com/VladVinichenko/Wallet_API) ",
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+          }
+      },
+      "consumes": ["application/json"],
+      "produces": ["application/json"],
+      "servers": [
+          { "url": "https://wallet-api-goit.herokuapp.com" }
+          ],
+      "tags": [
+      {
+        "name": "Users management",
+        "description": "endpoints"
+      },
+      {
+        "name": "Transactions management",
+        "description": "endpoints"
+      }
+      ],
+      "paths": {
+      "api/auth/signup": {
+        "post": {
+          "tags": ["Users management"],
+          "summary": "User registration",
+          "parameters": [],
+          "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationRequest"
+                  }
+              }
+          }
+          },
+          "responses": {
+            "201": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RegistrationResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request (invalid request body)",
+              "content": {}
+            },
+            "409": {
+              "description": "User with provided email already exists",
+              "content": {}
+            }
+          }
+        }
+      },
+      "api/auth/signin": {
+        "post": {
+          "tags": ["Users management"],
+          "summary": "User authentication",
+          "parameters": [],
+          "requestBody": {
+            "description": "Authentication's object",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SigninRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/SigninResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request (invalid request body)",
+              "content": {}
+            },
+            "401": {
+              "description": "Email not found / Email not verified / Password is wrong",
+              "content": {}
+            }
+          }
+        }
+      },
+      "api/auth/signout": {
+        "get": {
+          "tags": ["Users management"],
+          "summary": "Signout",
+          "security": [{ "Bearer": [] }],
+          "parameters": [],
+          "responses": {
+            "204": {
+              "description": "No content",
+              "content": {}
+            },
+            "401": {
+              "description": "Not authorized",
+              "content": {}
+            }
+          }
+        }
+      },
+      "api/users/current": {
+        "get": {
+          "tags": ["Users management"],
+          "summary": "Getting the current user",
+          "security": [{ "Bearer": [] }],
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CurrentUserResponse"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Invalid signature",
+              "content": {}
+            }
+          }
+        }
+      },
+       "/api/finance": {
+        "get": {
+          "tags": [
+            "Transactions management"
+          ],
+          "summary": "Get all information about user's transactions by date",
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/AllTransactionsResponse"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "invalid token",
+              "content": {}
+            }
+          }
+        }
+      },
+      "/api/finance/create": {
+        "post": {
+          "tags": [
+            "Transactions management"
+          ],
+          "summary": "Create a transaction",
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "parameters": [],
+          "requestBody": {
+            "description": "Transaction's object",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionCreateRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/TransactionCreateResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request (invalid request body) / No token provided",
+              "content": {}
+            },
+            "401": {
+              "description": "Unauthorized (invalid access token)",
+              "content": {}
+            },
+            "404": {
+              "description": "Invalid user / Invalid session",
+              "content": {}
+            }
+          }
+        }
+      },
+      "/api/finance/categories": {
+        "get": {
+          "tags": [
+            "Transactions management"
+          ],
+          "summary": "Get all information about user's transactions category",
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "parameters": [],
+          "requestBody": {
+            "description": "Transaction's object",
+            "required": false,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionsByCategoryRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/TransactionsByCategoryResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request (invalid request body) / No token provided",
+              "content": {}
+            },
+            "401": {
+              "description": "Unauthorized (invalid access token)",
+              "content": {}
+            },
+            "404": {
+              "description": "Invalid user / Invalid session",
+              "content": {}
+            }
+          }
+        }
+      },
+      "/api/transactions/list": {
+        "get": {
+          "tags": [
+            "Transactions management"
+          ],
+          "summary": "Get all user's categories of transactions",
+          "parameters": [],
+          "requestBody": {
+            "description": "Transaction's object",
+            "required": false,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListOfTransactionsCategoriesRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ListOfTransactionsCategoriesResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+      "components": {
+      "schemas": {
+        "RegistrationRequest": {
+          "required": ["name", "email", "password"],
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "example": "Guest",
+              "description": "User's name",
+              "minLength": 3,
+              "maxLength": 50
+            },
+            "email": {
+              "type": "string",
+              "description": "User's email",
+              "format": "email",
+              "minLength": 3,
+              "maxLength": 50
+            },
+            "password": {
+              "type": "string",
+              "description": "User's password",
+              "example": "qazwsxedc",
+              "minLength": 6,
+              "maxLength": 50
+            }
+          }
+        },
+        "RegistrationResponse": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "description": "User's email",
+              "format": "email"
+            }
+          }
+        },
+        "SigninRequest": {
+          "required": ["email", "password"],
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "description": "User's email",
+              "format": "email",
+              "minLength": 3,
+              "maxLength": 50
+            },
+            "password": {
+              "type": "string",
+              "description": "User's password",
+              "minLength": 6,
+              "maxLength": 50,
+              "example": "qazwsxedc"
+            }
+          }
+        },
+        "SigninResponse": {
+          "type": "object",
+          "properties": {
+            "token": {
+              "type": "string",
+              "description": "Session's access token (needed for all requests)",
+              "example": "3Y2UyNzQiLCJzaWQiOiI1ZmMyZDJmY2UxZDIwNTA2NzAyYmRkMjIiLCJpYXQiOjE2MDY2MDM1MTYsImV4cCI6MTYwNjYwNzExNn0.rJ_QjU4KvA76H96RHsvOBChK0Vjbd0NmqjMxdQVJIXA"
+            },
+            "name": {
+              "type": "string",
+              "example": "Guest",
+              "description": "User's name",
+              "minLength": 3,
+              "maxLength": 50
+            },
+            "email": {
+              "type": "string",
+              "description": "User's email",
+              "format": "email",
+              "minLength": 3,
+              "maxLength": 50
+            }},
+            "example": {
+              "token": "eyJ1aWQiOiI1ZmMyMDg1YmQwOTM2NTI4MTA3Y2UyNzQiLCJzaWQiOiI1ZmMyZDJmY2UxZDIwNTA2NzAyYmRkMjIiLCJpYXQiOjE2MDY2MDM1MTYsImV4cCI6MTYwNjYwNzExNn0.rJ_QjU4KvA76H96RHsvOBChK0Vjbd0NmqjMxdQVJIXA",
+              "user": {
+                "name": "Test Name",
+                "email": "testemailrgr@gmail.com"
+              }
+            }},
+            "CurrentUserResponse": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Guest",
+                  "description": "User's name",
+                  "minLength": 3,
+                  "maxLength": 50
+                },
+                "email": {
+                  "type": "string",
+                  "description": "User's email",
+                  "format": "email",
+                  "minLength": 3,
+                  "maxLength": 50
+                }},
+                "example": {
+                  "user": {
+                    "name": "Test Name",
+                    "email": "testemailrgr@gmail.com"
+                  }
+                }},
+         "AllTransactionsRequest": {
+          "optional": [
+            "year",
+            "month"
+          ],
+          "type": "object",
+          "example": "SALARY",
+          "properties": {
+            "year": {
+              "type": "string",
+              "description": "Optional. Number of year when transactions were payed. If the year wasn't indicated in URL-request string, the default data for the current year returned",
+              "example": "2021"
+            },
+            "month": {
+              "type": "string",
+              "description": "Optional. Number of month when transactions were payed. If the month wasn't indicated in URL-request string, the default data for the current month returned",
+              "example": "2"
+            }
+          }
+        },
+        "AllTransactionsResponse": {
+          "type": "object",
+          "required": [
+            "totalDocs",
+            "offset",
+            "limit",
+            "totalPages",
+            "page",
+            "pagingCounter",
+            "hasPrevPage",
+            "hasNextPage",
+            "prevPage",
+            "nextPage"
+          ],
+          "properties": {
+            "transaction": {
+              "type": "object",
+              "description": "Objects with all characteristics for paginate information about user's transactions and array of last one",
+              "properties": {
+                "totalDocs": {
+                  "type": "integer",
+                  "description": "How many transactions have user",
+                  "example": 4
+                },
+                "limit": {
+                  "type": "integer",
+                  "description": "Maximum amount of transactions which could sent server in one request",
+                  "example": 5
+                },
+                "totalPages": {
+                  "type": "integer",
+                  "description": "Amount of total pages with all transactions",
+                  "example": 1
+                },
+                "page": {
+                  "type": "integer",
+                  "description": "Number of page which was sent from server",
+                  "example": 1
+                },
+                "pagingCounter": {
+                  "type": "integer",
+                  "description": "Counter of pagination step",
+                  "example": 1
+                },
+                "hasPrevPage": {
+                  "type": "boolean",
+                  "description": "Boolean information about current page has previous page or not",
+                  "example": false
+                },
+                "hasNextPage": {
+                  "type": "boolean",
+                  "description": "Boolean information about current page has next page or not",
+                  "example": false
+                },
+                "prevPage": {
+                  "type": "number",
+                  "description": "Information about number of previous page. If you don't have previous page return null",
+                  "example": null
+                },
+                "nextPage": {
+                  "type": "number",
+                  "description": "Information about number of next page. If you don't have next page return null",
+                  "example": null
+                },
+                "offset": {
+                  "type": "object",
+                  "description": "Array of transactions depending on the request parameter for date, number and page",
+                  "format": []
+                }
+              }
+            }
+          },
+          "example": {
+            "transition": [
+              {
+                  "_id": "628356b897d487932b456332",
+                  "date": "1970-01-24T18:09:07.654Z",
+                  "type": "income",
+                  "category": "628356e997d487932b45633c",
+                  "comment": "January Bonus to Google corp. in USA",
+                  "sum": "8000.00",
+                  "balance": "14900.00",
+                  "owner": "6281332dfd26d41c090754ce"
+              },
+              {
+                  "_id": "6283575c97d487932b456347",
+                  "date": "1970-01-22T10:35:47.654Z",
+                  "type": "income",
+                  "category": "628356e997d487932b45633b",
+                  "comment": "January Bonus",
+                  "sum": "8000.00",
+                  "balance": "14900.00",
+                  "owner": "6281332dfd26d41c090754ce"
+              },
+              {
+                  "_id": "628356b897d487932b456338",
+                  "date": "1970-01-20T13:35:47.654Z",
+                  "type": "outlay",
+                  "category": "628356e997d487932b45633e",
+                  "comment": "Gift for wife",
+                  "sum": "300.00",
+                  "balance": "15500.00",
+                  "owner": "6281332dfd26d41c090754ce"
+              },
+              {
+                  "_id": "628356b897d487932b45632c",
+                  "date": "1970-01-20T03:06:52.292Z",
+                  "type": "income",
+                  "category": "628356e997d487932b45633e",
+                  "comment": "January Bonus",
+                  "sum": "8000.00",
+                  "owner": "6281332dfd26d41c090754ce",
+                  "balance": "50000.00"
+              },
+              {
+                  "_id": "628356b897d487932b456336",
+                  "date": "1970-01-20T03:02:27.654Z",
+                  "type": "income",
+                  "category": "628356e997d487932b45633b",
+                  "comment": "January Bonus",
+                  "sum": "8000.00",
+                  "balance": "14900.00",
+                  "owner": "6281332dfd26d41c090754ce"
+              },
+              {
+                  "_id": "628356b897d487932b456333",
+                  "date": "1970-01-20T03:02:27.654Z",
+                  "type": "income",
+                  "category": "628356e997d487932b45633b",
+                  "comment": "January Bonus",
+                  "sum": "8000.00",
+                  "balance": "14900.00",
+                  "owner": "6281332dfd26d41c090754ce"
+              },
+              {
+                  "_id": "628356b897d487932b456330",
+                  "date": "1970-01-20T03:02:27.654Z",
+                  "type": "income",
+                  "category": "628356e997d487932b45633b",
+                  "comment": "January Bonus",
+                  "sum": "8000.00",
+                  "balance": "14900.00",
+                  "owner": "6281332dfd26d41c090754ce"
+              },
+              {
+                  "_id": "6283575c97d487932b456348",
+                  "date": "1970-01-20T03:02:27.654Z",
+                  "type": "outlay",
+                  "category": "628356e997d487932b45633b",
+                  "comment": "January Bonus",
+                  "sum": "8000.00",
+                  "balance": "14900.00",
+                  "owner": "6281332dfd26d41c090754ce"
+              },
+              {
+                  "_id": "628356b897d487932b456335",
+                  "date": "1970-01-20T03:02:27.654Z",
+                  "type": "income",
+                  "category": "628356e997d487932b45633b",
+                  "comment": "January Bonus",
+                  "sum": "8000.00",
+                  "balance": "14900.00",
+                  "owner": "6281332dfd26d41c090754ce"
+              },
+              {
+                  "_id": "628356b897d487932b45632e",
+                  "date": "1970-01-20T03:02:27.654Z",
+                  "type": "income",
+                  "category": "628356e997d487932b45633b",
+                  "comment": "January Bonus",
+                  "sum": "8000.00",
+                  "balance": "14900.00",
+                  "owner": "6281332dfd26d41c090754ce"
+              }
+          ],
+          "totalDocs": 26,
+          "offset": 0,
+          "limit": 10,
+          "totalPages": 3,
+          "page": 1,
+          "pagingCounter": 1,
+          "hasPrevPage": false,
+          "hasNextPage": true,
+          "prevPage": null,
+          "nextPage": 2
+      }
+        },
+        "TransactionCreateRequest": {
+          "type": "object",
+          "required": [
+            "date",
+            "type",
+            "category",
+            "amount"
+          ],
+          "optional": [
+            "comment"
+          ],
+          "properties": {
+            "date": {
+              "type": "string",
+              "description": "Transaction's create date",
+              "example": "2021-02-01"
+            },
+            "type": {
+              "type": "string",
+              "description": "Transaction's type",
+              "example": "+"
+            },
+            "category": {
+              "type": "string",
+              "description": "Transaction's category",
+              "example": "Regular income"
+            },
+            "amount": {
+              "type": "string",
+              "description": "Amount of transaction",
+              "example": "500"
+            },
+            "comment": {
+              "type": "string",
+              "description": "Comment for transaction description",
+              "example": "Salary for January"
+            }
+          }
+        },
+        "TransactionCreateResponse": {
+          "type": "object",
+          "required": [
+            "amount",
+            "type",
+            "category",
+            "comment",
+            "date",
+            "balance",
+            "owner",
+            "createdAt",
+            "updatedAt",
+            "year",
+            "month",
+            "id"
+          ],
+          "properties": {
+            "amount": {
+              "type": "number",
+              "description": "Amount of transaction",
+              "example": 500
+            },
+            "type": {
+              "type": "string",
+              "description": "Transaction's type",
+              "example": "+"
+            },
+            "category": {
+              "type": "string",
+              "description": "Transaction's category",
+              "example": "Regular income"
+            },
+            "comment": {
+              "type": "string",
+              "description": "Comment for transaction description",
+              "example": "Salary for january"
+            },
+            "date": {
+              "type": "string",
+              "description": "Transaction's create date",
+              "example": "2021-02-01"
+            },
+            "balance": {
+              "type": "number",
+              "description": "User's balance after add transaction",
+              "example": 1000
+            },
+            "owner": {
+              "type": "string",
+              "description": "User's id who creates this transaction",
+              "example": "61994b7dc2b3164f924883cc"
+            },
+            "createdAt": {
+              "type": "string",
+              "description": "Time when transaction was created on server",
+              "example": "2021-11-20T19:37:20.178Z"
+            },
+            "updatedAt": {
+              "type": "string",
+              "description": "Time when transaction was updated on server",
+              "example": "2021-11-20T19:37:20.178Z"
+            },
+            "year": {
+              "type": "integer",
+              "description": "Year when transaction was payed",
+              "example": 2021
+            },
+            "month": {
+              "type": "integer",
+              "description": "Month of year when transaction was payed",
+              "example": 2
+            },
+            "id": {
+              "type": "string",
+              "description": "Transaction's id",
+              "example": "61994e70df4763ac4010ed06"
+            }
+          }
+        },
+        "TransactionsByCategoryRequest": {
+          "optional": [
+            "year",
+            "month"
+          ],
+          "type": "object",
+          "properties": {
+            "year": {
+              "type": "string",
+              "description": "Number of year when transactions of such category were payed. If the year wasn't indicated, then the default data for the current year returned",
+              "format": "Optional. Add to URL-request string",
+              "example": "2021"
+            },
+            "month": {
+              "type": "string",
+              "description": "Number of month when transactions of such category were payed. If the month wasn't indicated, then the default data for the current month returned",
+              "format": "Optional. Add to URL-request string",
+              "example": "2"
+            }
+          }
+        },
+        "TransactionsByCategoryResponse": {
+          "type": "object",
+          "required": [
+            "categories"
+          ],
+          "properties": {
+            "transaction": {
+              "type": "object",
+              "description": "Object of all categories of user's transactions with total amount of each category and also information about totalIncome and totalExpense",
+              "properties": {
+                "category and amount": {
+                  "type": "string and number",
+                  "description": "Different Transaction's category with amount",
+                  "example": "'Food': 50"
+                },
+                "totalIncome": {
+                  "type": "number",
+                  "description": "Amount of all user's total income",
+                  "example": 1050
+                },
+                "totalExpense": {
+                  "type": "number",
+                  "description": "Amount of all user's total expense",
+                  "example": 550
+                }
+              }
+            }
+          },
+          "example": {
+            "message": "All Categories",
+            "data": {
+              "Basic": 50,
+              "Products": 0,
+              "Car": 0,
+              "Care": 0,
+              "Child care": 0,
+              "Household products": 0,
+              "Education": 0,
+              "Leisure": 15,
+              "Other": 0,
+              "totalIncome": 1050,
+              "totalExpense": 50
+            }
+          }
+        },
+        "ListOfTransactionsCategoriesRequest": {
+          "type": "object",
+          "optional": [],
+          "properties": {}
+        },
+        "ListOfTransactionsCategoriesResponse": {
+          "type": "object",
+          "required": [
+            "expenses",
+            "incomes"
+          ],
+          "properties": {
+            "expenses": {
+              "type": "object",
+              "description": "Array of all types of user's expense categories",
+              "example": [
+                "Basic",
+                "Products",
+                "Car",
+                "Care",
+                "Child care",
+                "Household products",
+                "Education",
+                "Leisure",
+                "Other"
+              ]
+            },
+            "incomes": {
+              "type": "object",
+              "description": "Array of all types of user's income categories",
+              "example": [
+                "Regular income",
+                "Not regular income"
+              ]
+            }
+          }
+        }
+          },
+          "securitySchemes": {
+        "Bearer": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      }
+      }
+  }
