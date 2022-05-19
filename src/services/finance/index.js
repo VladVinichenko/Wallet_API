@@ -5,7 +5,8 @@ const {
 
 class FinanceService {
   async getAllTransaction(query, user) {
-    const { limit = 10, page = 0 } = query;
+    const { limit = 10, page = 1 } = query;
+
     return await getAllTransactionData({ limit, page }, user);
   }
 

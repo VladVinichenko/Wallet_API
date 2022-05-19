@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const mongoosePaginate = require('mongoose-paginate-v2');
+const mongoosePaginate = require('mongoose-paginate');
 
 const trSchema = Schema(
   {

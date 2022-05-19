@@ -3,7 +3,7 @@ const { Finance } = require('../../models');
 async function getAllTransactionData({ limit, page }, user) {
   const { docs: transition, ...rest } = await Finance.paginate(
     { owner: user._id },
-    { sort: { date: -1 }, limit, offset: page },
+    { sort: { date: -1 }, limit, page },
   );
   return { transition, ...rest };
 }
