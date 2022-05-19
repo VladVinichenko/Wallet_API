@@ -19,9 +19,9 @@ const signInController = async (req, res, next) => {
 
   const passCompare = bcrypt.compareSync(password, user.password);
 
-  /* if (!passCompare) {
+  if (!passCompare) {
     return res.status(401).json(Unauthorized(`Password wrong`));
-  } */
+  }
 
   const payload = {
     id: user._id,
