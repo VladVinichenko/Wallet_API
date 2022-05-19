@@ -7,15 +7,16 @@ const express = require('express');
 const { authMiddleware } = require('../../middlewares/index');
 const {
   getAllTransaction,
-    getTotal,
-    getStatisticsCtrl,
-  getCategories
+  getTotal,
+  getStatisticsCtrl,
+  getCategories,
   //   addContactController,
   //   removeContactByIdController,
   //   putContactController,
   //   patchContactController,
 } = require('../../controllers/finance');
-const { ctrlWrapper}= require('../../helpers/ctrlWrapper')
+const { ctrlWrapper } = require('../../helpers/ctrlWrapper');
+const { addTransaction } = require('../../controllers/finance/addTransaction');
 
 // const { joiSchema } = require("../../models/contact");
 
@@ -23,9 +24,16 @@ const router = express.Router();
 
 router.get('/', authMiddleware, getAllTransaction.getAllTransaction);
 router.get('/total-finance', authMiddleware, getTotal.getTotal);
-router.get('/statistics', authMiddleware, ctrlWrapper(getStatisticsCtrl))
+router.get('/statistics', authMiddleware, ctrlWrapper(getStatisticsCtrl));
 router.get('/categories', getCategories.getCategories);
 // router.get("/:id", getContactByIdController);
+
+router.post(
+  '/',
+  authMiddleware,
+  // validateBody(schemaCreateTransaction),
+  ctrlWrapper(addTransaction),
+);
 
 // router.post(
 //   "/",
