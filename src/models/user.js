@@ -15,7 +15,11 @@ const userSchema = Schema(
       type: String,
       required: [true, 'Password is required'],
     },
-    token: {
+    accessToken: {
+      type: String,
+      default: null,
+    },
+    refreshToken: {
       type: String,
       default: null,
     },
