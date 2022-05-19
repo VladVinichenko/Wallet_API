@@ -171,7 +171,7 @@
           }
         }
       },
-      "/api/finance/create": {
+      "/api/finance/": {
         "post": {
           "tags": [
             "Transactions management"
@@ -195,8 +195,8 @@
             }
           },
           "responses": {
-            "200": {
-              "description": "Successful operation",
+            "201": {
+              "description": "Created",
               "content": {
                 "application/json": {
                   "schema": {
@@ -211,10 +211,6 @@
             },
             "401": {
               "description": "Unauthorized (invalid access token)",
-              "content": {}
-            },
-            "404": {
-              "description": "Invalid user / Invalid session",
               "content": {}
             }
           }
@@ -652,7 +648,7 @@
             "date",
             "type",
             "category",
-            "amount"
+            "sum"
           ],
           "optional": [
             "comment"
@@ -666,14 +662,14 @@
             "type": {
               "type": "string",
               "description": "Transaction's type",
-              "example": "+"
+              "example": "income"
             },
             "category": {
               "type": "string",
               "description": "Transaction's category",
               "example": "Regular income"
             },
-            "amount": {
+            "sum": {
               "type": "string",
               "description": "Amount of transaction",
               "example": "500"
@@ -688,24 +684,25 @@
         "TransactionCreateResponse": {
           "type": "object",
           "required": [
-            "amount",
+            "date",
             "type",
             "category",
             "comment",
-            "date",
-            "balance",
+            "sum",
             "owner",
-            "createdAt",
-            "updatedAt",
-            "year",
-            "month",
+            "balance",
             "id"
           ],
           "properties": {
-            "amount": {
-              "type": "number",
-              "description": "Amount of transaction",
-              "example": 500
+            "id": {
+              "type": "string",
+              "description": "Transaction's id",
+              "example": "61994e70df4763ac4010ed06"
+            },
+            "date": {
+              "type": "string",
+              "description": "Transaction's create date",
+              "example": "2021-02-01"
             },
             "type": {
               "type": "string",
@@ -722,45 +719,20 @@
               "description": "Comment for transaction description",
               "example": "Salary for january"
             },
-            "date": {
-              "type": "string",
-              "description": "Transaction's create date",
-              "example": "2021-02-01"
-            },
-            "balance": {
+            "sum": {
               "type": "number",
-              "description": "User's balance after add transaction",
-              "example": 1000
+              "description": "Amount of transaction",
+              "example": 500
             },
             "owner": {
               "type": "string",
               "description": "User's id who creates this transaction",
               "example": "61994b7dc2b3164f924883cc"
             },
-            "createdAt": {
-              "type": "string",
-              "description": "Time when transaction was created on server",
-              "example": "2021-11-20T19:37:20.178Z"
-            },
-            "updatedAt": {
-              "type": "string",
-              "description": "Time when transaction was updated on server",
-              "example": "2021-11-20T19:37:20.178Z"
-            },
-            "year": {
-              "type": "integer",
-              "description": "Year when transaction was payed",
-              "example": 2021
-            },
-            "month": {
-              "type": "integer",
-              "description": "Month of year when transaction was payed",
-              "example": 2
-            },
-            "id": {
-              "type": "string",
-              "description": "Transaction's id",
-              "example": "61994e70df4763ac4010ed06"
+            "balance": {
+              "type": "number",
+              "description": "User's balance after add transaction",
+              "example": 1000
             }
           }
         },
