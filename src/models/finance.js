@@ -15,7 +15,7 @@ const trSchema = Schema(
       required: [true],
     },
     sum: {
-      type: String,
+      type: Number,
       required: [true],
     },
     date: {
@@ -31,7 +31,7 @@ const trSchema = Schema(
       required: true,
     },
     balance: {
-      type: String,
+      type: Number,
       required: true,
     },
   },
