@@ -1,7 +1,8 @@
 const { Schema, model } = require('mongoose');
-const mongoosePaginate = require('mongoose-paginate-v2');
 const Joi = require('joi');
-Joi.objectId = require('joi-objectid')(Joi)
+Joi.objectId = require('joi-objectid')(Joi);
+const mongoosePaginate = require('mongoose-paginate');
+
 const trSchema = Schema(
   {
     type: {
