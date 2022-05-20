@@ -18,11 +18,16 @@ const {
 const { ctrlWrapper } = require('../../helpers/ctrlWrapper');
 const { addTransaction } = require('../../controllers/finance/addTransaction');
 
-// const { joiSchema } = require("../../models/contact");
+const { getTransactionValidate } = require('../../middlewares');
 
 const router = express.Router();
 
-router.get('/', authMiddleware, getAllTransaction.getAllTransaction);
+router.get(
+  '/',
+  authMiddleware,
+  getTransactionValidate,
+  getAllTransaction.getAllTransaction,
+);
 router.get('/total-finance', authMiddleware, getTotal.getTotal);
 router.get('/statistics', authMiddleware, ctrlWrapper(getStatisticsCtrl));
 router.get('/categories', getCategories.getCategories);
