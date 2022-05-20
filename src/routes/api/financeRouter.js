@@ -4,7 +4,10 @@ const express = require('express');
 //   authMiddleware,
 //   validationMiddleware,
 // } = require("../../middlewares/index");
-const { authMiddleware } = require('../../middlewares/index');
+const {
+  authMiddleware,
+  validationMiddleware,
+} = require('../../middlewares/index');
 const {
   getAllTransaction,
   getTotal,
@@ -17,7 +20,8 @@ const {
 } = require('../../controllers/finance');
 const { ctrlWrapper } = require('../../helpers/ctrlWrapper');
 const { addTransaction } = require('../../controllers/finance/addTransaction');
-
+const { getStatisticsValidate } = require('../../middlewares');
+// const { joiSchema } = require("../../models/contact");
 const { getTransactionValidate } = require('../../middlewares');
 
 const router = express.Router();
@@ -29,7 +33,12 @@ router.get(
   getAllTransaction.getAllTransaction,
 );
 router.get('/total-finance', authMiddleware, getTotal.getTotal);
-router.get('/statistics', authMiddleware, ctrlWrapper(getStatisticsCtrl));
+router.get(
+  '/statistics',
+  authMiddleware,
+  getStatisticsValidate,
+  ctrlWrapper(getStatisticsCtrl),
+);
 router.get('/categories', getCategories.getCategories);
 // router.get("/:id", getContactByIdController);
 
