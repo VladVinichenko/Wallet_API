@@ -21,6 +21,11 @@ const getVerifyController = async (req, res, next) => {
         verify: true,
       },
     );
+
+    return res.status(200).json({
+      status: 'success',
+      code: 200,
+    });
   }
 };
 
