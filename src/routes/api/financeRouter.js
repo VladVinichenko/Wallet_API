@@ -49,21 +49,4 @@ router.post(
   ctrlWrapper(addTransaction),
 );
 
-// router.post(
-//   "/",
-//   authMiddleware,
-//   validationMiddleware(joiSchema),
-//   addContactController,
-// );
-
-// router.delete("/:id", removeContactByIdController);
-
-// router.put("/:id", validationMiddleware(joiSchema), putContactController);
-
-// router.patch(
-//   "/:id/favorite",
-//   validationMiddleware(favoriteSchema),
-//   patchContactController,
-// );
-
 module.exports = router;

@@ -47,7 +47,6 @@ function getStatisticsByCategory(monthList) {
       .reduce((acc, value) => acc + value, 0);
     return { category: arr[0].category, sum: sum.toFixed(2) };
   });
-  // console.log('statisticsByCategory',statisticsByCategory)
   return statisticsByCategory;
 }
 

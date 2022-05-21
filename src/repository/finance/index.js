@@ -13,8 +13,7 @@ async function getTotalValue(user) {
       date: -1,
     })
     .limit(1);
-
-  return data;
+  return { user: data[0] };
 }
 
 async function addTransaction(id, body) {
