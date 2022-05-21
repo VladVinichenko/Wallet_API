@@ -1,9 +1,11 @@
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const {
+  generateAccessToken,
+  generateRefreshToken,
+} = require('../../helpers/jwt/authHelper');
 
 const { Unauthorized } = require('http-errors');
 const { User } = require('../../models/index');
-const { JWT_SECRET_KEY } = process.env;
 
 const signInController = async (req, res, next) => {
   const { email, password } = req.body;
@@ -23,17 +25,17 @@ const signInController = async (req, res, next) => {
     return res.status(401).json(Unauthorized(`Password wrong`));
   }
 
-  const payload = {
-    id: user._id,
-  };
-  const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: '1h' });
-  await User.findByIdAndUpdate(user._id, { token });
+  const accessToken = generateAccessToken(user._id);
+  const refreshToken = generateRefreshToken();
+
+  await User.findByIdAndUpdate(user._id, { accessToken, refreshToken });
 
   res.json({
     status: 'success',
     code: 200,
     data: {
-      token,
+      accessToken,
+      refreshToken,
       user: {
         name: user.name,
         email: user.email,

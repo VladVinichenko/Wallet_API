@@ -1,4 +1,5 @@
 const getCurrentUserController = async (req, res, next) => {
+  // console.log(req.user);
   const { name, email } = req.user;
   res.json({
     status: 'success',
