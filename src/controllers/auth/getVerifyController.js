@@ -3,6 +3,7 @@ const { User } = require('../../models/index');
 const { SendMsg } = require('../../services/index');
 
 const getVerifyController = async (req, res, next) => {
+  console.log('getVerifyController:', req.params);
   const { verificationToken } = req.params;
 
   const user = await User.findOne({ verificationToken });
