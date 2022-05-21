@@ -1,13 +1,8 @@
-const { Finance } = require('../../models');
+const ctrl = require('../../repository/finance');
 
 const addTransaction = async (req, res) => {
   const { _id } = req.user;
-  console.log(req.body);
-  const newTransaction = await Finance.create({
-    ...req.body,
-    owner: _id,
-    balance: '2000.00',
-  });
+  const newTransaction = await ctrl.addTransaction(_id, req.body);
 
   res.status(201).json({
     status: 'OK',
