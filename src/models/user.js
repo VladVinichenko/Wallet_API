@@ -33,7 +33,7 @@ const userSchema = Schema(
     },
     balance: {
       type: Number,
-      // required: true,
+      required: true,
     },
   },
   {
