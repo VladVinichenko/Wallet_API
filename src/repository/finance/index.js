@@ -61,9 +61,6 @@ async function addTransaction(id, body) {
     // console.log('updateManyResult :>> ', updateManyResult);
 
     lastBalance === 0 ? (newBalance = sum) : (newBalance = lastBalance + sum);
-    // LastBefore.length === 0
-    //   ? (newBalance = sum)
-    //   : (newBalance = LastBefore.newBalance + sum);
     console.log('newBalance :>> ', newBalance);
   } else {
     const updateManyResult = await Finance.updateMany(
@@ -80,54 +77,12 @@ async function addTransaction(id, body) {
     console.log('newBalance :>> ', newBalance);
   }
 
-  // const newTransaction = {
-  //   ...body,
-  //   owner: id,
-  //   balance: newBalance,
-  // };
   const newTransaction = await Finance.create({
     ...body,
     owner: id,
     balance: newBalance,
   });
   return newTransaction;
-
-  // const updateManyResult = await Finance.updateMany(
-  //   {
-  //     owner: id,
-  //     $and: [{ date: { $gt: date } }],
-  //   },
-  //   // { $or: [{ quantity: { $lt: 20 } }, { price: 10 }] },
-  //   // {
-  //   //   balance: {
-  //   //     $cond: {
-  //   //       if: { type: 'income' },
-  //   //       then: { $inc: { balance: sum } },
-  //   //       else: { $inc: { balance: -sum } },
-  //   //     },
-  //   //   },
-  //   // },
-  //   // {
-  //   // $cond: {
-  //   //   if: { true },
-  //   //   then: { $inc: { balance: sum } },
-  //   //   else: { $inc: { balance: -sum } },
-  //   // },
-  //   // },
-  //   { $inc: { balance: sum } },
-  //   { new: true },
-  // );
-  // console.log('updateManyResult :>> ', updateManyResult);
-
-  //
-  //
-  //
-
-  // const newTransaction = await Finance.create({
-  //   ...body,
-  //   owner: id,
-  //   balance: '2000.00',
-  // });
 }
 
 module.exports = {
