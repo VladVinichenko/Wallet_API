@@ -17,13 +17,14 @@ async function getTotalValue(user) {
 }
 
 async function addTransaction(id, body) {
-  console.log('body', body);
+  // console.log('body', body);
 
   const { date, sum, type } = body;
-  console.log('body.date :>> ', date);
-  console.log('owner id :>> ', id);
-  console.log('sum :>> ', sum);
-  //
+
+  // console.log('body.date :>> ', date);
+  // console.log('owner id :>> ', id);
+  // console.log('sum :>> ', sum);
+
   const olderTrasactions = await Finance.find({
     owner: id,
     $and: [{ date: { $gt: date } }],
@@ -40,11 +41,11 @@ async function addTransaction(id, body) {
       date: -1,
     })
     .limit(1);
-  console.log('LastBefore :>> ', LastBefore);
-  console.log('object', LastBefore.length);
-  console.log('Last not exist :>> ', Boolean(LastBefore.length === 0));
-  console.log('LastBefore.balance :>> ', LastBefore[0]?.balance);
-  console.log('type', type, sum);
+  // console.log('LastBefore :>> ', LastBefore);
+  // console.log('object', LastBefore.length);
+  // console.log('Last not exist :>> ', Boolean(LastBefore.length === 0));
+  // console.log('LastBefore.balance :>> ', LastBefore[0]?.balance);
+  // console.log('type', type, sum);
 
   const lastBalance = LastBefore[0]?.balance || 0;
 
