@@ -18,11 +18,11 @@ const refreshTokenController = async (req, res, next) => {
 
   if (refreshToken) {
     const newAccessToken = generateAccessToken(user._id);
-    // const newRefreshToken = generateRefreshToken();
+    const newRefreshToken = generateRefreshToken();
 
     await User.findByIdAndUpdate(user._id, {
       accessToken: newAccessToken,
-      // refreshToken: newRefreshToken,
+      refreshToken: newRefreshToken,
     });
 
     res.json({
@@ -30,7 +30,7 @@ const refreshTokenController = async (req, res, next) => {
       code: 200,
       data: {
         accessToken: newAccessToken,
-        // refreshToken: newRefreshToken,
+        refreshToken: newRefreshToken,
       },
     });
   }
