@@ -45,7 +45,7 @@ router.get('/categories', getCategories.getCategories);
 router.post(
   '/',
   authMiddleware,
-  // validateBody(schemaCreateTransaction),
+  // validationMiddleware(schemaCreateTrasaction),
   ctrlWrapper(addTransaction),
 );
 
