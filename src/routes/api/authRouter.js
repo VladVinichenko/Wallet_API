@@ -20,7 +20,7 @@ router.get('/verify/:verificationToken', getVerifyController);
 
 router.post('/signin', validationMiddleware(joiSchema), signInController);
 
-router.get('/refresh-tokens', refreshTokenController);
+router.get('/refresh', refreshTokenController);
 
 router.get('/signout', signOutController);
 
