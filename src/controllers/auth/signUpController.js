@@ -23,7 +23,6 @@ const signUpController = async (req, res, next) => {
     email,
     password: hashPassword,
     verificationToken,
-    balance: 0,
   });
 
   const msg = {
