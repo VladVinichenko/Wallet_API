@@ -63,7 +63,7 @@
           }
         }
       },
-      "/api/auth/verify/{verificationToken}": {
+      "/api/auth/verify/:verificationToken": {
         "post": {
           "tags": ["Users management"],
           "summary": "User verification",
