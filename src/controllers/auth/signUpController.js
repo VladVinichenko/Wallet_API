@@ -5,7 +5,7 @@ const { Conflict } = require('http-errors');
 const { SendMsg } = require('../../services/index');
 const { User } = require('../../models/index');
 
-const defaultVerificationLink = process.env.defaultVerificationLink;
+const CLIENT_URL = process.env.CLIENT_URL;
 
 const signUpController = async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -29,8 +29,8 @@ const signUpController = async (req, res, next) => {
   const msg = {
     to: email,
     subject: 'Mail Auth',
-    text: `Перейди по ссылке ${defaultVerificationLink}/verify/${verificationToken} для верификации`,
-    html: `Перейди по <a href="${defaultVerificationLink}/verify/${verificationToken}">ссылке</a> для верификации`,
+    text: `Перейди по ссылке ${CLIENT_URL}/verify/${verificationToken} для верификации`,
+    html: `Перейди по <a href="${CLIENT_URL}/verify/${verificationToken}">ссылке</a> для верификации`,
   };
 
   SendMsg(msg);
