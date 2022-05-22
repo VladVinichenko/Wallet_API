@@ -6,7 +6,7 @@ const generateAccessToken = userId => {
   const payload = {
     id: userId,
   };
-  const options = { expiresIn: 30 };
+  const options = { expiresIn: "15m" };
 
   return jwt.sign(payload, JWT_SECRET_KEY, options);
 };
