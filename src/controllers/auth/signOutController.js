@@ -13,10 +13,13 @@ const signOutController = async (req, res, next) => {
     return res.status(401).json(Unauthorized('Not authorized'));
   }
 
-  await User.findOneAndUpdate(refreshToken, {
-    accessToken: null,
-    refreshToken: null,
-  });
+  await User.findOneAndUpdate(
+    { refreshToken },
+    {
+      accessToken: null,
+      refreshToken: null,
+    },
+  );
 
   res.clearCookie('refreshToken');
   return res.status(204).json();
