@@ -63,6 +63,41 @@
           }
         }
       },
+      "/api/auth/verify/{verificationToken}": {
+        "post": {
+          "tags": ["Users management"],
+          "summary": "User verification",
+          "parameters": [
+            {
+              "name": "verificationToken",
+              "in": "path",
+              "description": "Verification Token",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/VerificationResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request",
+              "content": {}
+            },
+            "404": {
+              "description": "Not found",
+              "content": {}
+            }
+          }
+        }
+      },
       "/api/auth/signin": {
         "post": {
           "tags": ["Users management"],
@@ -295,7 +330,7 @@
           }
         }
       },
-      "/api/finance/statistics": {
+      "/api/finance/statistics?month=${month}&year=${year}": {
         "get": {
           "tags": [
             "Transactions management"
@@ -306,18 +341,22 @@
               "Bearer": []
             }
           ],
-          "parameters": [],
-          "requestBody": {
-            "description": "Transaction's object",
-            "required": false,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TransactionsStatisticsRequest"
-                }
-              }
+          "parameters": [
+            {
+              "name": "month",
+              "in": "query",
+              "description": "Required Month",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "year",
+              "in": "query",
+              "description": "Required Year",
+              "required": true,
+              "type": "string"
             }
-          },
+          ],
           "responses": {
             "200": {
               "description": "Successful operation",
@@ -330,7 +369,7 @@
               }
             },
             "401": {
-              "description": "Unauthorized (invalid access token)",
+              "description": "Not authorized / Token expired",
               "content": {}
             }
           }
@@ -394,6 +433,16 @@
               "type": "string",
               "description": "User's email",
               "format": "email"
+            }
+          }
+        },
+        "VerificationResponse": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "description": "User's email",
+              "example": "Your email verified"
             }
           }
         },
@@ -779,27 +828,6 @@
               "example": "2022-05-22T09:12:14.973Z"
             }
           }
-        },
-        "TransactionsStatisticsRequest": {
-          "optional": [
-            "month",
-            "year"
-          ],
-          "type": "object",
-          "properties": {
-            "month": {
-              "type": "string",
-              "description": "Number of month when transactions of such category were payed. If the month wasn't indicated, then the default data for the current month returned",
-              "format": "Optional. Add to URL-request string",
-              "example": "2"
-            },
-            "year": {
-              "type": "string",
-              "description": "Number of year when transactions of such category were payed. If the year wasn't indicated, then the default data for the current year returned",
-              "format": "Optional. Add to URL-request string",
-              "example": "2021"
-            }
-          }
         }, 
         "TransactionsTotalResponse": {
           "type": "object",
@@ -860,20 +888,14 @@
             }
           },
           "example": {
-            "incomeStatistics": 1050,
-            "totalOutlayStatistics": 50,
-            "statisticsByCategory": {
-              "Basic": 50,
-              "Products": 0,
-              "Car": 0,
-              "Care about": 0,
-              "Child care": 0,
-              "Household products": 0,
-              "Education": 0,
-              "Leisure": 15,
-              "Other": 0
-              
-            }
+            "incomeStatistics": 5.00,
+            "totalOutlayStatistics": 4600.00,
+            "statisticsByCategory": [
+             { 
+              "category": "628356e997d487932b45633d",
+              "sum": 800 
+             }
+            ]
           }
         },
         "ListOfTransactionsCategoriesResponse": {
