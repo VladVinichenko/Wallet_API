@@ -16,15 +16,15 @@ async function getTotalValue(user) {
     .limit(1);
 
   const allDates = await Finance.find({ owner: user._id }, { date: 1 });
-  const uniqueYears = allDates.reduce((acc, obj) => {
+  const years = allDates.reduce((acc, obj) => {
     const year = obj.date.getFullYear();
     if (!acc.includes(year)) acc.push(year);
     return acc;
   }, []);
 
-  const Months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+  const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-  return { user: data[0], uniqueYears, Months };
+  return { user: data[0], aviableStatistics: { years, months } };
 }
 
 async function addTransaction(id, body) {
