@@ -31,11 +31,6 @@ const userSchema = Schema(
       type: String,
       default: null,
     },
-    balance: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
   },
   {
     versionKey: false,
