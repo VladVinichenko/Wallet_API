@@ -1,9 +1,6 @@
 const express = require('express');
 
-const {
-  authMiddleware,
-  validationMiddleware,
-} = require('../../middlewares/index');
+const { validationMiddleware } = require('../../middlewares/index');
 
 const {
   signUpController,
@@ -23,8 +20,8 @@ router.get('/verify/:verificationToken', getVerifyController);
 
 router.post('/signin', validationMiddleware(joiSchema), signInController);
 
-router.post('/refresh-tokens', refreshTokenController);
+router.get('/refresh-tokens', refreshTokenController);
 
-router.get('/signout', authMiddleware, signOutController);
+router.get('/signout', signOutController);
 
 module.exports = router;

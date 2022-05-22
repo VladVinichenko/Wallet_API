@@ -30,12 +30,16 @@ const signInController = async (req, res, next) => {
 
   await User.findByIdAndUpdate(user._id, { accessToken, refreshToken });
 
-  res.json({
+  res.cookie('refreshToken', refreshToken, {
+    maxAge: 1000 * 60 * 60 * 24,
+    httpOnly: true,
+  });
+
+  return res.json({
     status: 'success',
     code: 200,
     data: {
       accessToken,
-      refreshToken,
       user: {
         name: user.name,
         email: user.email,

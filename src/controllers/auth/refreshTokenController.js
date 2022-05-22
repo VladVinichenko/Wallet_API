@@ -6,7 +6,7 @@ const {
 const { User } = require('../../models/index');
 
 const refreshTokenController = async (req, res, next) => {
-  const { refreshToken } = req.body;
+  const { refreshToken } = req.cookies;
   const user = await User.findOne({ refreshToken });
   if (!user) {
     return res.status(401).json({
@@ -16,16 +16,22 @@ const refreshTokenController = async (req, res, next) => {
   if (refreshToken) {
     const newAccessToken = generateAccessToken(user._id);
     const newRefreshToken = generateRefreshToken();
+
     await User.findByIdAndUpdate(user._id, {
       accessToken: newAccessToken,
       refreshToken: newRefreshToken,
     });
-    res.json({
+
+    res.cookie('refreshToken', newRefreshToken, {
+      maxAge: 1000 * 60 * 60 * 24,
+      httpOnly: true,
+    });
+
+    return res.json({
       status: 'success',
       code: 200,
       data: {
         accessToken: newAccessToken,
-        refreshToken: newRefreshToken,
       },
     });
   }
