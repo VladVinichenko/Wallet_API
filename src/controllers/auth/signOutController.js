@@ -1,10 +1,28 @@
 const { User } = require('../../models/index');
+const { Unauthorized } = require('http-errors');
 
 const signOutController = async (req, res, next) => {
-  const { _id } = req.user;
-  await User.findByIdAndUpdate(_id, { accessToken: null, refreshToken: null });
+  const { refreshToken } = req.cookies;
 
-  res.status(204).json();
+  if (!refreshToken) {
+    return res.status(401).json(Unauthorized('Not authorized'));
+  }
+
+  const user = await User.findOne({ refreshToken });
+  if (!user) {
+    return res.status(401).json(Unauthorized('Not authorized'));
+  }
+
+  await User.findOneAndUpdate(
+    { refreshToken },
+    {
+      accessToken: null,
+      refreshToken: null,
+    },
+  );
+
+  res.clearCookie('refreshToken');
+  return res.status(204).json();
 };
 
 module.exports = signOutController;
