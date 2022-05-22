@@ -22,7 +22,7 @@ async function getTotalValue(user) {
     return acc;
   }, []);
 
-  const Months = [1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12];
+  const Months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
   return { user: data[0], uniqueYears, Months };
 }
