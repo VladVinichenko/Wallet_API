@@ -1,6 +1,7 @@
 const dayjs = require('dayjs');
 
 const addRefreshTokenCookies = (res, refreshToken) => {
+  // console.log();
   return res.cookie('refreshToken', refreshToken, {
     expires: dayjs().add(1, 'days').toDate(),
     httpOnly: true,
