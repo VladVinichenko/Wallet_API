@@ -1,6 +1,6 @@
 const FinanceService = require('../../services/finance');
 
-const getTotal = async (req, res) => {
+const getBalanceCtrl = async (req, res) => {
   const balance = await FinanceService.getTotal(req.user);
 
   res.status(200).json({
@@ -12,5 +12,5 @@ const getTotal = async (req, res) => {
 };
 
 module.exports = {
-  getTotal,
+  getBalanceCtrl,
 };

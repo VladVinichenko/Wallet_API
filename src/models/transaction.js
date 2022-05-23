@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 const Joi = require('joi');
-Joi.objectId = require('joi-objectid')(Joi);
+// Joi.objectId = require('joi-objectid')(Joi);
 const mongoosePaginate = require('mongoose-paginate');
 
 const trSchema = Schema(
@@ -38,7 +38,7 @@ const trSchema = Schema(
   { versionKey: false, timestamps: true },
 );
 
-const joiFinanceSchema = Joi.object({
+const joiSchema = Joi.object({
   type: Joi.string().required(),
   category: Joi.string().required(),
   sum: Joi.string().required(),
@@ -50,6 +50,6 @@ const joiFinanceSchema = Joi.object({
 
 trSchema.plugin(mongoosePaginate);
 
-const Finance = model('transaction', trSchema);
+const Transaction = model('transaction', trSchema);
 
-module.exports = { Finance, joiFinanceSchema };
+module.exports = { Transaction, joiSchema };

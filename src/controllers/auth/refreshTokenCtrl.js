@@ -12,7 +12,7 @@ const {
 
 const { User } = require('../../models/index');
 
-const refreshTokenController = async (req, res, next) => {
+const refreshTokenCtrl = async (req, res, next) => {
   try {
     const { refreshToken } = req.signedCookies;
 
@@ -53,4 +53,4 @@ const refreshTokenController = async (req, res, next) => {
   }
 };
 
-module.exports = refreshTokenController;
+module.exports = refreshTokenCtrl;

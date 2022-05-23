@@ -1,6 +1,6 @@
 const ctrl = require('../../repository/finance');
 
-const addTransaction = async (req, res) => {
+const addTransactionCtrl = async (req, res) => {
   const { _id } = req.user;
   const newTransaction = await ctrl.addTransaction(_id, req.body);
 
@@ -13,5 +13,5 @@ const addTransaction = async (req, res) => {
 };
 
 module.exports = {
-  addTransaction,
+  addTransactionCtrl,
 };

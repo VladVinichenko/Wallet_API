@@ -11,7 +11,7 @@ const {
   addRefreshTokenCookies,
 } = require('../../helpers/cookies/refreshTokenCookies');
 
-const signInController = async (req, res, next) => {
+const signInCtrl = async (req, res, next) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
@@ -49,4 +49,4 @@ const signInController = async (req, res, next) => {
   });
 };
 
-module.exports = signInController;
+module.exports = signInCtrl;

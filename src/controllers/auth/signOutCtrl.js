@@ -1,7 +1,7 @@
 const { User } = require('../../models/index');
 const { Unauthorized } = require('http-errors');
 
-const signOutController = async (req, res, next) => {
+const signOutCtrl = async (req, res, next) => {
   const { refreshToken } = req.signedCookies;
 
   if (!refreshToken) {
@@ -29,4 +29,4 @@ const signOutController = async (req, res, next) => {
   return res.status(204).json();
 };
 
-module.exports = signOutController;
+module.exports = signOutCtrl;

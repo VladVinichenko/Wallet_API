@@ -7,7 +7,7 @@ const { User } = require('../../models/index');
 
 const CLIENT_URL = process.env.CLIENT_URL;
 
-const signUpController = async (req, res, next) => {
+const signUpCtrl = async (req, res, next) => {
   const { name, email, password } = req.body;
   const user = await User.findOne({ email });
 
@@ -45,4 +45,4 @@ const signUpController = async (req, res, next) => {
   });
 };
 
-module.exports = signUpController;
+module.exports = signUpCtrl;

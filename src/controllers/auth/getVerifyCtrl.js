@@ -1,6 +1,6 @@
 const { User } = require('../../models/index');
 
-const getVerifyController = async (req, res, next) => {
+const getVerifyCtrl = async (req, res, next) => {
   const { verificationToken } = req.params;
 
   const user = await User.findOne({ verificationToken });
@@ -28,4 +28,4 @@ const getVerifyController = async (req, res, next) => {
   }
 };
 
-module.exports = getVerifyController;
+module.exports = getVerifyCtrl;

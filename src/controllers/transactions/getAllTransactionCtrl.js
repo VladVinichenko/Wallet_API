@@ -1,6 +1,6 @@
 const FinanceService = require('../../services/finance');
 
-const getAllTransaction = async (req, res) => {
+const getAllTransactionsCtrl = async (req, res) => {
   const listTransaction = await FinanceService.getAllTransaction(
     req.query,
     req.user,
@@ -14,5 +14,5 @@ const getAllTransaction = async (req, res) => {
 };
 
 module.exports = {
-  getAllTransaction,
+  getAllTransactionsCtrl,
 };
