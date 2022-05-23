@@ -7,6 +7,10 @@ const {
 const { Unauthorized } = require('http-errors');
 const { User } = require('../../models/index');
 
+const {
+  addRefreshTokenCookies,
+} = require('../../helpers/cookies/refreshTokenCookies');
+
 const signInController = async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -30,12 +34,13 @@ const signInController = async (req, res, next) => {
 
   await User.findByIdAndUpdate(user._id, { accessToken, refreshToken });
 
-  res.json({
+  addRefreshTokenCookies(res, refreshToken);
+
+  return res.json({
     status: 'success',
     code: 200,
     data: {
       accessToken,
-      refreshToken,
       user: {
         name: user.name,
         email: user.email,

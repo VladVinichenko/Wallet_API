@@ -1,9 +1,6 @@
 const express = require('express');
 
-const {
-  authMiddleware,
-  validationMiddleware,
-} = require('../../middlewares/index');
+const { validationMiddleware } = require('../../middlewares/index');
 
 const {
   signUpController,
@@ -13,18 +10,28 @@ const {
   refreshTokenController,
 } = require('../../controllers/auth/index');
 
+const { ctrlWrapper } = require('../../helpers/ctrlWrapper');
+
 const { joiSchema } = require('../../models/user');
 
 const router = express.Router();
 
-router.post('/signup', validationMiddleware(joiSchema), signUpController);
+router.post(
+  '/signup',
+  validationMiddleware(joiSchema),
+  ctrlWrapper(signUpController),
+);
 
-router.get('/verify/:verificationToken', getVerifyController);
+router.get('/verify/:verificationToken', ctrlWrapper(getVerifyController));
 
-router.post('/signin', validationMiddleware(joiSchema), signInController);
+router.post(
+  '/signin',
+  validationMiddleware(joiSchema),
+  ctrlWrapper(signInController),
+);
 
-router.post('/refresh-tokens', refreshTokenController);
+router.get('/refresh', ctrlWrapper(refreshTokenController));
 
-router.get('/signout', authMiddleware, signOutController);
+router.get('/signout', ctrlWrapper(signOutController));
 
 module.exports = router;

@@ -6,7 +6,7 @@ const generateAccessToken = userId => {
   const payload = {
     id: userId,
   };
-  const options = { expiresIn: 30 };
+  const options = { expiresIn: '15m' };
 
   return jwt.sign(payload, JWT_SECRET_KEY, options);
 };
@@ -15,7 +15,7 @@ const generateRefreshToken = () => {
   const payload = {
     id: v4(),
   };
-  const options = { expiresIn: '1h' };
+  const options = { expiresIn: '1d' };
 
   return jwt.sign(payload, JWT_SECRET_KEY, options);
 };

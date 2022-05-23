@@ -7,29 +7,37 @@ async function getAllTransactionData({ limit, page }, user) {
   );
   return { transition, ...rest };
 }
+
 async function getTotalValue(user) {
   const data = await Finance.find({ owner: user._id }, { balance: 1 })
     .sort({
       date: -1,
     })
     .limit(1);
-  return { user: data[0] };
+
+  const allDates = await Finance.find({ owner: user._id }, { date: 1 });
+  const years = allDates.reduce((acc, obj) => {
+    const year = obj.date.getFullYear();
+    if (!acc.includes(year)) acc.push(year);
+    return acc;
+  }, []);
+
+  const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+  return { user: data[0], aviableStatistics: { years, months } };
 }
 
 async function addTransaction(id, body) {
-  // console.log('body', body);
-
   const { date, sum, type } = body;
-
   // console.log('body.date :>> ', date);
   // console.log('owner id :>> ', id);
   // console.log('sum :>> ', sum);
 
-  const olderTrasactions = await Finance.find({
-    owner: id,
-    $and: [{ date: { $gt: date } }],
-  });
-  console.log('olderTrasactions :>> ', olderTrasactions);
+  // const olderTrasactions = await Finance.find({
+  //   owner: id,
+  //   $and: [{ date: { $gt: date } }],
+  // });
+  // console.log('olderTrasactions :>> ', olderTrasactions);
 
   let newBalance = 0;
 
