@@ -13,44 +13,40 @@ const {
 const { User } = require('../../models/index');
 
 const refreshTokenCtrl = async (req, res, next) => {
-  try {
-    const { refreshToken } = req.signedCookies;
+  const { refreshToken } = req.signedCookies;
 
-    if (!refreshToken) {
-      return res.status(401).json(Unauthorized('Not authorized'));
-    }
-
-    jwt.verify(refreshToken, JWT_SECRET_KEY);
-
-    const user = await User.findOne({ refreshToken });
-    if (!user) {
-      return res.status(401).json(Unauthorized('Not authorized'));
-    }
-
-    const newAccessToken = generateAccessToken(user._id);
-    const newRefreshToken = generateRefreshToken();
-
-    await User.findByIdAndUpdate(user._id, {
-      accessToken: newAccessToken,
-      refreshToken: newRefreshToken,
-    });
-
-    addRefreshTokenCookies(res, newRefreshToken);
-
-    return res.json({
-      status: 'success',
-      code: 200,
-      data: {
-        accessToken: newAccessToken,
-      },
-    });
-  } catch (error) {
-    if (error instanceof jwt.TokenExpiredError) {
-      return res.status(401).json({ message: 'rToken expired!' });
-    }
-    res.status(401).json(Unauthorized('Not authorized'));
-    next(error);
+  if (!refreshToken) {
+    return res.status(401).json(Unauthorized('Not authorized'));
   }
+
+  try {
+    jwt.verify(refreshToken, JWT_SECRET_KEY);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+
+  const user = await User.findOne({ refreshToken });
+  if (!user) {
+    return res.status(401).json(Unauthorized('Not authorized'));
+  }
+
+  const newAccessToken = generateAccessToken(user._id);
+  const newRefreshToken = generateRefreshToken();
+
+  await User.findByIdAndUpdate(user._id, {
+    accessToken: newAccessToken,
+    refreshToken: newRefreshToken,
+  });
+
+  addRefreshTokenCookies(res, newRefreshToken);
+
+  res.json({
+    status: 'success',
+    code: 200,
+    data: {
+      accessToken: newAccessToken,
+    },
+  });
 };
 
 module.exports = refreshTokenCtrl;
