@@ -17,7 +17,7 @@ const app = express();
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
 app.use(logger(formatsLogger));
-app.use(cookieParser());
+app.use(cookieParser(process.env.COOKIE_SECRET_KEY));
 app.use(
   cors({
     credentials: true,

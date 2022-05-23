@@ -4,10 +4,14 @@ const {
 } = require('../../helpers/jwt/authHelper');
 const { Unauthorized } = require('http-errors');
 
+const {
+  addRefreshTokenCookies,
+} = require('../../helpers/cookies/refreshTokenCookies');
+
 const { User } = require('../../models/index');
 
 const refreshTokenController = async (req, res, next) => {
-  const { refreshToken } = req.cookies;
+  const { refreshToken } = req.signedCookies;
 
   if (!refreshToken) {
     return res.status(401).json(Unauthorized('Not authorized'));
@@ -26,10 +30,7 @@ const refreshTokenController = async (req, res, next) => {
     refreshToken: newRefreshToken,
   });
 
-  res.cookie('refreshToken', newRefreshToken, {
-    maxAge: 1000 * 60 * 60 * 24,
-    httpOnly: true,
-  });
+  addRefreshTokenCookies(res, newRefreshToken);
 
   return res.json({
     status: 'success',
