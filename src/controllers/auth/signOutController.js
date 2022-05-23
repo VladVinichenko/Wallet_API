@@ -21,7 +21,11 @@ const signOutController = async (req, res, next) => {
     },
   );
 
-  res.clearCookie('refreshToken');
+  res.clearCookie('refreshToken', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV !== 'development',
+    sameSite: 'None',
+  });
   return res.status(204).json();
 };
 
