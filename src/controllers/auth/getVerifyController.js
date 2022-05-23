@@ -1,7 +1,5 @@
 const { User } = require('../../models/index');
 
-const { SendMsg } = require('../../services/index');
-
 const getVerifyController = async (req, res, next) => {
   const { verificationToken } = req.params;
 
@@ -22,12 +20,11 @@ const getVerifyController = async (req, res, next) => {
         verify: true,
       },
     );
-    const msg = {
-      to: user.email,
-      subject: 'Mail Auth',
-      text: 'Ваша почта успешно подтверждена. Регистрация завершена!',
-    };
-    SendMsg(msg);
+
+    return res.status(200).json({
+      status: 'success',
+      code: 200,
+    });
   }
 };
 
