@@ -18,7 +18,7 @@ const authMiddleware = async (req, res, next) => {
     next();
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {
-      return res.status(401).json({ message: 'Token expired!' });
+      return res.status(401).json({ message: 'aToken expired!' });
     }
     res.status(401).json(Unauthorized('Not authorized'));
     next(error);
