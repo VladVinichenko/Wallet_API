@@ -2,7 +2,7 @@ const { User } = require('../../models/index');
 const { Unauthorized } = require('http-errors');
 
 const signOutController = async (req, res, next) => {
-  const { refreshToken } = req.cookies;
+  const { refreshToken } = req.signedCookies;
 
   if (!refreshToken) {
     return res.status(401).json(Unauthorized('Not authorized'));
