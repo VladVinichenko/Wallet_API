@@ -521,11 +521,6 @@
                   "type": "string",
                   "description": "Session's access token (needed for all requests)",
                   "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1ZmMyMDg1YmQwOTM2NTI4MTA3Y2UyNzQiLCJzaWQiOiI1ZmMyZDJmY2UxZDIwNTA2NzAyYmRkMjIiLCJpYXQiOjE2MDY2MDM1MTYsImV4cCI6MTYwNjYwNzExNn0.rJ_QjU4KvA76H96RHsvOBChK0Vjbd0NmqjMxdQVJIXA"
-                },
-                "refreshToken": {
-                  "type": "string",
-                  "description": "Session's refresh token",
-                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgzNTY2ZWRhLTJhYzUtNDVlOC05MzE3LTRkYTExNmNjYmExOSIsImlhdCI6MTY1MzIwOTUxMywiZXhwIjoxNjUzMjEzMTEzfQ.pCe3nCSZlgx30P0xaeLyOR7i5aY7Q_TI05TL5Fr85Cg"
                 }
               }
             },
@@ -848,14 +843,66 @@
                   "type": "number",
                   "description": "User balance",
                   "example": 2000
+                },
+                "years": {
+                  "type": "array",
+                  "description": "Available years for statistics",
+                  "example": [
+                    2022,
+                    2021,
+                    2020,
+                    2019,
+                    2018
+                  ]
+                },
+                "months": {
+                  "type": "array",
+                  "description": "Available months for statistics",
+                  "example": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12
+                  ]
                 }
               }
             }
           },
           "example": {
-            "totalFinance": {
+            "user": {
               "_id": "628356b897d487932b456332",
               "balance": "14900.00"
+            },
+            "aviableStatistics": {
+              "years": [
+                2022,
+                2021,
+                2020,
+                2019,
+                2018
+              ],
+              "months": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12
+              ]
             }
           }
         },
