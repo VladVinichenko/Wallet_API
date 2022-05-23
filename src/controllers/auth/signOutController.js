@@ -21,6 +21,7 @@ const signOutController = async (req, res, next) => {
     },
   );
 
+  res.cookie('refreshToken');
   res.clearCookie('refreshToken');
   return res.status(204).json();
 };
