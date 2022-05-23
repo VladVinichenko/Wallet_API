@@ -63,6 +63,41 @@
           }
         }
       },
+      "/api/auth/verify/:verificationToken": {
+        "post": {
+          "tags": ["Users management"],
+          "summary": "User verification",
+          "parameters": [
+            {
+              "name": "verificationToken",
+              "in": "path",
+              "description": "Verification Token",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/VerificationResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request",
+              "content": {}
+            },
+            "404": {
+              "description": "Not found",
+              "content": {}
+            }
+          }
+        }
+      },
       "/api/auth/signin": {
         "post": {
           "tags": ["Users management"],
@@ -114,6 +149,51 @@
             },
             "401": {
               "description": "Not authorized",
+              "content": {}
+            }
+          }
+        }
+      },
+      "/api/auth/refresh-tokens": {
+        "post": {
+          "tags": [
+            "Users management"
+          ],
+          "summary": "Update user's refresh token",
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "parameters": [],
+          "requestBody": {
+            "description": "Refresh token send in body",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefreshTokenRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RefreshTokenResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "No token provided",
+              "content": {}
+            },
+            "401": {
+              "description": "Invalid Signature",
               "content": {}
             }
           }
@@ -210,7 +290,7 @@
               "content": {}
             },
             "401": {
-              "description": "Unauthorized (invalid access token)",
+              "description": "Not authorized",
               "content": {}
             }
           }
@@ -250,7 +330,7 @@
           }
         }
       },
-      "/api/finance/statistics": {
+      "/api/finance/statistics?month=${month}&year=${year}": {
         "get": {
           "tags": [
             "Transactions management"
@@ -261,18 +341,22 @@
               "Bearer": []
             }
           ],
-          "parameters": [],
-          "requestBody": {
-            "description": "Transaction's object",
-            "required": false,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TransactionsStatisticsRequest"
-                }
-              }
+          "parameters": [
+            {
+              "name": "month",
+              "in": "query",
+              "description": "Required Month",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "year",
+              "in": "query",
+              "description": "Required Year",
+              "required": true,
+              "type": "string"
             }
-          },
+          ],
           "responses": {
             "200": {
               "description": "Successful operation",
@@ -285,7 +369,7 @@
               }
             },
             "401": {
-              "description": "Unauthorized (invalid access token)",
+              "description": "Not authorized / Token expired",
               "content": {}
             }
           }
@@ -352,6 +436,16 @@
             }
           }
         },
+        "VerificationResponse": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "description": "User's email",
+              "example": "Your email verified"
+            }
+          }
+        },
         "SigninRequest": {
           "required": ["email", "password"],
           "type": "object",
@@ -375,10 +469,15 @@
         "SigninResponse": {
           "type": "object",
           "properties": {
-            "token": {
+            "accessToken": {
               "type": "string",
               "description": "Session's access token (needed for all requests)",
               "example": "3Y2UyNzQiLCJzaWQiOiI1ZmMyZDJmY2UxZDIwNTA2NzAyYmRkMjIiLCJpYXQiOjE2MDY2MDM1MTYsImV4cCI6MTYwNjYwNzExNn0.rJ_QjU4KvA76H96RHsvOBChK0Vjbd0NmqjMxdQVJIXA"
+            },
+            "refreshToken": {
+              "type":"string",
+              "description": "Session's refresh token",
+              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY2MWJjMDE3LWU4OGItNDVlZi04YmI4LWZlNjM1ZjY2Njk3ZiIsImlhdCI6MTY1MzIwOTA2MSwiZXhwIjoxNjUzMjEyNjYxf"
             },
             "name": {
               "type": "string",
@@ -395,12 +494,36 @@
               "maxLength": 50
             }},
             "example": {
-              "token": "eyJ1aWQiOiI1ZmMyMDg1YmQwOTM2NTI4MTA3Y2UyNzQiLCJzaWQiOiI1ZmMyZDJmY2UxZDIwNTA2NzAyYmRkMjIiLCJpYXQiOjE2MDY2MDM1MTYsImV4cCI6MTYwNjYwNzExNn0.rJ_QjU4KvA76H96RHsvOBChK0Vjbd0NmqjMxdQVJIXA",
+              "accessToken": "eyJ1aWQiOiI1ZmMyMDg1YmQwOTM2NTI4MTA3Y2UyNzQiLCJzaWQiOiI1ZmMyZDJmY2UxZDIwNTA2NzAyYmRkMjIiLCJpYXQiOjE2MDY2MDM1MTYsImV4cCI6MTYwNjYwNzExNn0.rJ_QjU4KvA76H96RHsvOBChK0Vjbd0NmqjMxdQVJIXA",
+              "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY2MWJjMDE3LWU4OGItNDVlZi04YmI4LWZlNjM1ZjY2Njk3ZiIsImlhdCI6MTY1MzIwOTA2MSwiZXhwIjoxNjUzMjEyNjYxfQ.qP0MAIoFu9VpaPFjWyg930LkSR4JRgW0NbZpEnWOc3A",
               "user": {
                 "name": "Test Name",
                 "email": "testemailrgr@gmail.com"
               }
             }},
+            "RefreshTokenRequest": {
+              "required": [
+                "refreshToken"
+              ],
+              "type": "object",
+              "properties": {
+                "refreshToken": {
+                  "type": "string",
+                  "description": "User's refresh token",
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY2MWJjMDE3LWU4OGItNDVlZi04YmI4LWZlNjM1ZjY2Njk3ZiIsImlhdCI6MTY1MzIwOTA2MSwiZXhwIjoxNjUzMjEyNjYxfQ.qP0MAIoFu9VpaPFjWyg930LkSR4JRgW0NbZpEnWOc3A"
+                }
+              }
+            },
+            "RefreshTokenResponse": {
+              "type": "object",
+              "properties": {
+                "accessToken": {
+                  "type": "string",
+                  "description": "Session's access token (needed for all requests)",
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1ZmMyMDg1YmQwOTM2NTI4MTA3Y2UyNzQiLCJzaWQiOiI1ZmMyZDJmY2UxZDIwNTA2NzAyYmRkMjIiLCJpYXQiOjE2MDY2MDM1MTYsImV4cCI6MTYwNjYwNzExNn0.rJ_QjU4KvA76H96RHsvOBChK0Vjbd0NmqjMxdQVJIXA"
+                }
+              }
+            },
             "CurrentUserResponse": {
               "type": "object",
               "properties": {
@@ -607,30 +730,30 @@
             "comment"
           ],
           "properties": {
-            "date": {
-              "type": "string",
-              "description": "Transaction's create date",
-              "example": "2021-02-01"
-            },
-            "type": {
-              "type": "string",
-              "description": "Transaction's type",
-              "example": "income"
-            },
             "category": {
               "type": "string",
               "description": "Transaction's category",
-              "example": "Regular income"
-            },
-            "sum": {
-              "type": "string",
-              "description": "Amount of transaction",
-              "example": "500"
+              "example": "628356e997d487932b456343"
             },
             "comment": {
               "type": "string",
               "description": "Comment for transaction description",
-              "example": "Salary for January"
+              "example": "Comment"
+            },
+            "date": {
+              "type": "string",
+              "description": "Transaction's create date",
+              "example": "Tue May 10 2022 22:57:18 GMT+0300 (Eastern European Summer Time)"
+            },
+            "sum": {
+              "type": "string",
+              "description": "Amount of transaction",
+              "example": "850"
+            },
+            "type": {
+              "type": "string",
+              "description": "Transaction's type",
+              "example": "outlay"
             }
           }
         },
@@ -644,69 +767,60 @@
             "sum",
             "owner",
             "balance",
-            "id"
+            "id",
+            "createdAt",
+            "updatedAt"
           ],
           "properties": {
-            "id": {
-              "type": "string",
-              "description": "Transaction's id",
-              "example": "61994e70df4763ac4010ed06"
-            },
-            "date": {
-              "type": "string",
-              "description": "Transaction's create date",
-              "example": "2021-02-01"
-            },
             "type": {
               "type": "string",
               "description": "Transaction's type",
-              "example": "+"
+              "example": "outlay"
             },
             "category": {
               "type": "string",
               "description": "Transaction's category",
-              "example": "Regular income"
-            },
-            "comment": {
-              "type": "string",
-              "description": "Comment for transaction description",
-              "example": "Salary for january"
+              "example": "628356e997d487932b456343"
             },
             "sum": {
               "type": "number",
               "description": "Amount of transaction",
-              "example": 500
+              "example": 850
+            },
+            "date": {
+              "type": "string",
+              "description": "Transaction's create date",
+              "example": "2022-05-10T19:57:18.000Z"
+            },
+            "comment": {
+              "type": "string",
+              "description": "Comment for transaction description",
+              "example": "Comment"
             },
             "owner": {
               "type": "string",
               "description": "User's id who creates this transaction",
-              "example": "61994b7dc2b3164f924883cc"
+              "example": "6288b87c56389bafbaa6ae9b"
             },
             "balance": {
               "type": "number",
               "description": "User's balance after add transaction",
-              "example": 1000
-            }
-          }
-        },
-        "TransactionsStatisticsRequest": {
-          "optional": [
-            "month",
-            "year"
-          ],
-          "type": "object",
-          "properties": {
-            "month": {
-              "type": "string",
-              "description": "Number of month when transactions of such category were payed. If the month wasn't indicated, then the default data for the current month returned",
-              "format": "Optional. Add to URL-request string",
-              "example": "2"
+              "example": 4867
             },
-            "year": {
+            "id": {
               "type": "string",
-              "description": "Number of year when transactions of such category were payed. If the year wasn't indicated, then the default data for the current year returned",
-              "format": "Optional. Add to URL-request string",
-              "example": "2021"
+              "description": "Transaction's id",
+              "example": "6289fe6e1da2cca94d7cfcda"
+            },
+            "createdAt": {
+              "type": "string",
+              "description": "Time when transaction was created on server",
+              "example": "2022-05-22T09:12:14.973Z"
+            },
+            "updatedAt": {
+              "type": "string",
+              "description": "Time when transaction was updated on server",
+              "example": "2022-05-22T09:12:14.973Z"
             }
           }
         }, 
@@ -729,14 +843,66 @@
                   "type": "number",
                   "description": "User balance",
                   "example": 2000
+                },
+                "years": {
+                  "type": "array",
+                  "description": "Available years for statistics",
+                  "example": [
+                    2022,
+                    2021,
+                    2020,
+                    2019,
+                    2018
+                  ]
+                },
+                "months": {
+                  "type": "array",
+                  "description": "Available months for statistics",
+                  "example": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12
+                  ]
                 }
               }
             }
           },
           "example": {
-            "totalFinance": {
+            "user": {
               "_id": "628356b897d487932b456332",
               "balance": "14900.00"
+            },
+            "aviableStatistics": {
+              "years": [
+                2022,
+                2021,
+                2020,
+                2019,
+                2018
+              ],
+              "months": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12
+              ]
             }
           }
         },
@@ -769,20 +935,14 @@
             }
           },
           "example": {
-            "incomeStatistics": 1050,
-            "totalOutlayStatistics": 50,
-            "statisticsByCategory": {
-              "Basic": 50,
-              "Products": 0,
-              "Car": 0,
-              "Care about": 0,
-              "Child care": 0,
-              "Household products": 0,
-              "Education": 0,
-              "Leisure": 15,
-              "Other": 0
-              
-            }
+            "incomeStatistics": 5.00,
+            "totalOutlayStatistics": 4600.00,
+            "statisticsByCategory": [
+             { 
+              "category": "628356e997d487932b45633d",
+              "sum": 800 
+             }
+            ]
           }
         },
         "ListOfTransactionsCategoriesResponse": {
