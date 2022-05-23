@@ -42,7 +42,7 @@ const joiSchema = Joi.object({
   name: Joi.string().alphanum().min(1).max(12),
   email: Joi.string()
     .email()
-    .regex(/^[A-Za-z0-9+_.-]+@(.+)$/)
+    .regex(/^\w+([.-]?\w+)+@\w+([.:]?\w+)+(.[a-zA-Z0-9]{2,3})+$/)
     .min(10)
     .max(63)
     .required(),
