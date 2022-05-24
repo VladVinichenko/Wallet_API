@@ -3,14 +3,14 @@ const express = require('express');
 const { validationMiddleware } = require('../../middlewares/index');
 
 const {
-  signUpController,
-  getVerifyController,
-  signInController,
-  signOutController,
-  refreshTokenController,
+  signUpCtrl,
+  getVerifyCtrl,
+  signInCtrl,
+  signOutCtrl,
+  refreshTokenCtrl,
 } = require('../../controllers/auth/index');
 
-const { ctrlWrapper } = require('../../helpers/ctrlWrapper');
+const { ctrlWrapper } = require('../../middlewares');
 
 const { joiSchema } = require('../../models/user');
 
@@ -18,20 +18,20 @@ const router = express.Router();
 
 router.post(
   '/signup',
-  validationMiddleware(joiSchema),
-  ctrlWrapper(signUpController),
+  validationMiddleware(joiSchema, 'body'),
+  ctrlWrapper(signUpCtrl),
 );
 
-router.get('/verify/:verificationToken', ctrlWrapper(getVerifyController));
+router.get('/verify/:verificationToken', ctrlWrapper(getVerifyCtrl));
 
 router.post(
   '/signin',
-  validationMiddleware(joiSchema),
-  ctrlWrapper(signInController),
+  validationMiddleware(joiSchema, 'body'),
+  ctrlWrapper(signInCtrl),
 );
 
-router.get('/refresh', ctrlWrapper(refreshTokenController));
+router.get('/refresh', ctrlWrapper(refreshTokenCtrl));
 
-router.get('/signout', ctrlWrapper(signOutController));
+router.get('/signout', ctrlWrapper(signOutCtrl));
 
 module.exports = router;
