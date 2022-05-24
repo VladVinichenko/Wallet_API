@@ -1,6 +1,5 @@
 const { Schema, model } = require('mongoose');
 const Joi = require('joi');
-// Joi.objectId = require('joi-objectid')(Joi);
 const mongoosePaginate = require('mongoose-paginate');
 
 const trSchema = Schema(

@@ -16,7 +16,6 @@ const findUserByVerif = async verificationToken => {
 };
 
 const updateTokens = async (_id, accessToken, refreshToken) => {
-  // console.log({ _id, accessToken, refreshToken });
   await User.findByIdAndUpdate(_id, {
     accessToken,
     refreshToken,

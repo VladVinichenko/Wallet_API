@@ -1,19 +1,20 @@
 const { Transaction } = require('../../models');
 
-const getStatisticsByType = async (_id, type) => {
-  const allTransactions = await Transaction.find({ owner: _id, type });
-  const incomeStatistics = allTransactions.reduce((a, i) => {
-    return a + i.balance;
-  }, 0);
-  return incomeStatistics;
-};
-
-const getStatisticsByDate = async (_id, month, year) => {
-  const allTransactions = await Transaction.find({ owner: _id, month, year });
-  const statisticsByDate = allTransactions.reduce((a, i) => {
-    return a + i.balance;
-  }, 0);
-  return statisticsByDate;
+const getStatistics = async (_id, year, month) => {
+  const startDate = new Date(year, month - 1);
+  const endDate = new Date(year, month);
+  const statisticsByDate = await Transaction.find({
+    owner: _id,
+    $and: [{ date: { $gte: startDate } }, { date: { $lt: endDate } }],
+  });
+  const countStat = type => {
+    return statisticsByDate
+      .filter(i => i.type === type)
+      .reduce((a, i) => a + i.sum, 0);
+  };
+  const incomeStatistics = countStat('income');
+  const outlayStatistics = countStat('outlay');
+  return { incomeStatistics, outlayStatistics, statisticsByDate };
 };
 
 const getAllTransactions = async (user, limit, page) => {
@@ -24,7 +25,7 @@ const getAllTransactions = async (user, limit, page) => {
   return { transactions: docs, ...rest };
 };
 
-const getTotalValue = async user => {
+const getBalance = async user => {
   const data = await Transaction.find({ owner: user._id }, { balance: 1 })
     .sort({
       date: -1,
@@ -110,9 +111,8 @@ const addTransaction = async (id, body) => {
 };
 
 module.exports = {
-  getStatisticsByType,
-  getStatisticsByDate,
+  getStatistics,
   getAllTransactions,
-  getTotalValue,
+  getBalance,
   addTransaction,
 };

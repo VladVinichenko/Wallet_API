@@ -1,6 +1,6 @@
-const authMiddleware = require('./authMiddleware');
+const { authMiddleware } = require('./authMiddleware');
 const { validationMiddleware } = require('./validationMiddleware');
-const ctrlWrapper = require('./ctrlWrapper');
+const { ctrlWrapper } = require('./ctrlWrapper');
 
 module.exports = {
   authMiddleware,
