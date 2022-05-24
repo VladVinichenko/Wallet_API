@@ -46,8 +46,8 @@ const joiPostSchema = Joi.object({
 });
 
 const joiPaginateSchema = Joi.object({
-  page: Joi.string().greater(0),
-  limit: Joi.string().greater(0),
+  page: Joi.number().greater(0),
+  limit: Joi.number().greater(0),
 });
 
 const joiStatisticsSchema = Joi.object({
