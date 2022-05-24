@@ -1,5 +1,5 @@
-const { Finance } = require('./finance');
+const { Transaction } = require('./transaction');
 const { User } = require('./user');
-const { Category } = require('./categories');
+const { Category } = require('./category');
 
-module.exports = { Finance, User, Category };
+module.exports = { Transaction, User, Category };
