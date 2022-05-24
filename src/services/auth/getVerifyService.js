@@ -26,4 +26,4 @@ const getVerifyService = async verificationToken => {
   //   );
 };
 
-module.exports = getVerifyService;
+module.exports = { getVerifyService };

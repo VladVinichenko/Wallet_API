@@ -1,8 +1,6 @@
 const signInService = require('../../services/auth');
 
-const {
-  addRefreshTokenCookies,
-} = require('../../helpers/cookies/refreshTokenCookies');
+const { addRefreshTokenCookies } = require('../../helpers');
 
 const signInCtrl = async (req, res, next) => {
   const { email, password } = req.body;
@@ -24,4 +22,4 @@ const signInCtrl = async (req, res, next) => {
   });
 };
 
-module.exports = signInCtrl;
+module.exports = { signInCtrl };

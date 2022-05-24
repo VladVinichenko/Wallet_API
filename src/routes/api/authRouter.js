@@ -8,7 +8,7 @@ const {
   signInCtrl,
   signOutCtrl,
   refreshTokenCtrl,
-} = require('../../Ctrls/auth/index');
+} = require('../../controllers/auth/index');
 
 const { ctrlWrapper } = require('../../middlewares');
 

@@ -8,9 +8,9 @@ const {
   getAllTransactionsCtrl,
   getBalanceCtrl,
   getStatisticsCtrl,
-  getCategoriesCtrl,
+  // getCategoriesCtrl,
   addTransactionCtrl,
-} = require('../../controllers/transaction');
+} = require('../../controllers/transactions');
 const { ctrlWrapper } = require('../../middlewares');
 // const { getStatisticsValidate } = require('../../middlewares');
 // const { getTransactionValidate } = require('../../middlewares');
@@ -27,7 +27,7 @@ router.get(
   ctrlWrapper(getAllTransactionsCtrl),
 );
 
-router.get('/total-finance', authMiddleware, ctrlWrapper(getBalanceCtrl));
+router.get('/balance', authMiddleware, ctrlWrapper(getBalanceCtrl));
 
 router.get(
   '/statistics',
@@ -37,11 +37,11 @@ router.get(
   ctrlWrapper(getStatisticsCtrl),
 );
 
-router.get(
-  '/categories',
-  // getCategories.getCategories,
-  ctrlWrapper(getCategoriesCtrl),
-);
+// router.get(
+//   '/categories',
+//   // getCategories.getCategories,
+//   ctrlWrapper(getCategoriesCtrl),
+// );
 
 router.post(
   '/',

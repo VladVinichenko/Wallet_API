@@ -1,4 +1,4 @@
-const getCategoriesServise = require('./getCategoriesServise');
+const { getCategoriesServise } = require('./getCategoriesServise');
 
 module.exports = {
   getCategoriesServise,

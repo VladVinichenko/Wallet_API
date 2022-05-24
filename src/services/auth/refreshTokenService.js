@@ -1,7 +1,4 @@
-const {
-  generateAccessToken,
-  generateRefreshToken,
-} = require('../../helpers/jwt/authHelper');
+const { generateAccessToken, generateRefreshToken } = require('../../helpers');
 const { Unauthorized } = require('http-errors');
 const { JWT_SECRET_KEY } = process.env;
 const jwt = require('jsonwebtoken');
@@ -47,4 +44,4 @@ const refreshTokenCtrl = async refreshToken => {
   return newAccessToken;
 };
 
-module.exports = refreshTokenCtrl;
+module.exports = { refreshTokenCtrl };

@@ -1,8 +1,5 @@
 const bcrypt = require('bcrypt');
-const {
-  generateAccessToken,
-  generateRefreshToken,
-} = require('../../helpers/jwt/authHelper');
+const { generateAccessToken, generateRefreshToken } = require('../../helpers');
 
 const { Unauthorized } = require('http-errors');
 // const { User } = require('../../models/index');
@@ -46,4 +43,4 @@ const signInService = async (email, password) => {
   return { accessToken, refreshToken, user };
 };
 
-module.exports = signInService;
+module.exports = { signInService };

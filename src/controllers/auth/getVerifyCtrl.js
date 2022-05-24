@@ -11,4 +11,4 @@ const getVerifyCtrl = async (req, res, next) => {
   });
 };
 
-module.exports = getVerifyCtrl;
+module.exports = { getVerifyCtrl };

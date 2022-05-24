@@ -14,7 +14,7 @@ const clearRefreshTokenCookies = res => {
   return res.clearCookie('refreshToken', {
     httpOnly: true,
     secure: process.env.NODE_ENV !== 'development',
-    sameSite: 'None',
+    sameSite: process.env.NODE_ENV !== 'development' && 'None',
   });
 };
 

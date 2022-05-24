@@ -35,4 +35,4 @@ const signOutService = async refreshToken => {
   //   });
 };
 
-module.exports = signOutService;
+module.exports = { signOutService };

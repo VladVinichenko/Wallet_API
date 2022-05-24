@@ -4,11 +4,11 @@ const {
   ctrlWrapper,
   validationMiddleware,
 } = require('../../middlewares/index');
-const { getCategoriesCtrl } = require('../../controllers/transaction');
+const { getCategoriesCtrl } = require('../../controllers/categories');
 // const { getStatisticsValidate } = require('../../middlewares');
 // const { getTransactionValidate } = require('../../middlewares');
 
-const { joiSchema } = require('../../models/categories');
+const { joiSchema } = require('../../models/category');
 
 const router = express.Router();
 

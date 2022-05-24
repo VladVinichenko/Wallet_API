@@ -15,4 +15,4 @@ const SendMsg = async data => {
   }
 };
 
-module.exports = SendMsg;
+module.exports = { SendMsg };

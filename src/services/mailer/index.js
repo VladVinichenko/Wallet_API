@@ -1,3 +1,3 @@
-const SendMsg = require('./mailer/SendMsg');
+const { SendMsg } = require('./SendMsg');
 
 module.exports = { SendMsg };

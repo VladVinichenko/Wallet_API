@@ -1,8 +1,6 @@
 const refreshTokenService = require('../../services/auth');
 
-const {
-  addRefreshTokenCookies,
-} = require('../../helpers/cookies/refreshTokenCookies');
+const { addRefreshTokenCookies } = require('../../helpers');
 
 const refreshTokenCtrl = async (req, res, next) => {
   const { refreshToken } = req.signedCookies;
@@ -20,4 +18,4 @@ const refreshTokenCtrl = async (req, res, next) => {
   });
 };
 
-module.exports = refreshTokenCtrl;
+module.exports = { refreshTokenCtrl };

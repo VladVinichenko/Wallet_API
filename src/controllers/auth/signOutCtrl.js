@@ -1,8 +1,6 @@
 const signOutService = require('../../services/auth');
 
-const {
-  clearRefreshTokenCookies,
-} = require('../../helpers/cookies/refreshTokenCookies');
+const { clearRefreshTokenCookies } = require('../../helpers');
 
 const signOutCtrl = async (req, res, next) => {
   const { refreshToken } = req.signedCookies;
@@ -14,4 +12,4 @@ const signOutCtrl = async (req, res, next) => {
   return res.status(204).json();
 };
 
-module.exports = signOutCtrl;
+module.exports = { signOutCtrl };

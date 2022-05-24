@@ -16,4 +16,4 @@ const signUpCtrl = async (req, res, next) => {
   });
 };
 
-module.exports = signUpCtrl;
+module.exports = { signUpCtrl };

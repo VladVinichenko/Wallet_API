@@ -1,4 +1,4 @@
-const getCategoriesCtrl = require('./getCategoriesCtrl');
+const { getCategoriesCtrl } = require('./getCategoriesCtrl');
 
 module.exports = {
   getCategoriesCtrl,

@@ -44,7 +44,7 @@ const joiSchema = Joi.object({
   sum: Joi.string().required(),
   date: Joi.string().required(),
   comment: Joi.string(),
-  owner: Joi.objectId().required(),
+  // owner: Joi.objectId().required(),
   balance: Joi.string().required(),
 });
 

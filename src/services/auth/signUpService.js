@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const { Conflict } = require('http-errors');
-const { SendMsg } = require('../../services/index');
+const { SendMsg } = require('../mailer');
 // const { User } = require('../../models/index');
 const { findUser, createUser } = require('../../repository/auth');
 
@@ -41,4 +41,4 @@ const signUpService = async (name, email, password) => {
   SendMsg(msg);
 };
 
-module.exports = signUpService;
+module.exports = { signUpService };

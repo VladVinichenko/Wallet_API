@@ -9,13 +9,13 @@ async function getAllTransactionData({ limit, page }, user) {
 }
 
 async function getTotalValue(user) {
-  const data = await Finance.find({ owner: user._id }, { balance: 1 })
+  const data = await Transition.find({ owner: user._id }, { balance: 1 })
     .sort({
       date: -1,
     })
     .limit(1);
 
-  const allDates = await Finance.find({ owner: user._id }, { date: 1 });
+  const allDates = await Transition.find({ owner: user._id }, { date: 1 });
   const years = allDates.reduce((acc, obj) => {
     const year = obj.date.getFullYear();
     if (!acc.includes(year)) acc.push(year);
@@ -41,7 +41,7 @@ async function addTransaction(id, body) {
 
   let newBalance = 0;
 
-  const LastBefore = await Finance.find({
+  const LastBefore = await Transition.find({
     owner: id,
     $and: [{ date: { $lt: date } }],
   })
@@ -58,7 +58,7 @@ async function addTransaction(id, body) {
   const lastBalance = LastBefore[0]?.balance || 0;
 
   if (type === 'income') {
-    const updateManyResult = await Finance.updateMany(
+    const updateManyResult = await Transition.updateMany(
       {
         owner: id,
         $and: [{ date: { $gt: date } }],
@@ -71,7 +71,7 @@ async function addTransaction(id, body) {
     lastBalance === 0 ? (newBalance = sum) : (newBalance = lastBalance + sum);
     console.log('newBalance :>> ', newBalance);
   } else {
-    const updateManyResult = await Finance.updateMany(
+    const updateManyResult = await Transition.updateMany(
       {
         owner: id,
         $and: [{ date: { $gt: date } }],
@@ -85,7 +85,7 @@ async function addTransaction(id, body) {
     console.log('newBalance :>> ', newBalance);
   }
 
-  const newTransaction = await Finance.create({
+  const newTransaction = await Transition.create({
     ...body,
     owner: id,
     balance: newBalance,

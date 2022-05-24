@@ -12,4 +12,4 @@ const getCategoriesServise = async (req, res, next) => {
   });
 };
 
-module.exports = getCategoriesServise;
+module.exports = { getCategoriesServise };
