@@ -1,6 +1,6 @@
-const validationMiddleware = schema => async (req, res, next) => {
+const validationMiddleware = (schema, type) => async (req, res, next) => {
   try {
-    await schema.validateAsync(req.body);
+    await schema.validateAsync(req[type]);
     next();
   } catch (error) {
     res.status(400).json({
@@ -11,4 +11,4 @@ const validationMiddleware = schema => async (req, res, next) => {
   }
 };
 
-module.exports = validationMiddleware;
+module.exports = { validationMiddleware };

@@ -1,11 +1,9 @@
-const authMiddleware = require('./authMiddleware');
-const validationMiddleware = require('./validationMiddleware');
-const { getStatisticsValidate } = require('./validationStatisticsQuery');
-const { getTransactionValidate } = require('./validationParamsMiddleware');
+const { authMiddleware } = require('./authMiddleware');
+const { validationMiddleware } = require('./validationMiddleware');
+const { ctrlWrapper } = require('./ctrlWrapper');
 
 module.exports = {
   authMiddleware,
   validationMiddleware,
-  getStatisticsValidate,
-  getTransactionValidate,
+  ctrlWrapper,
 };

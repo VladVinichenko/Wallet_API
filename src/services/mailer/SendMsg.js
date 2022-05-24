@@ -11,8 +11,8 @@ const SendMsg = async data => {
     await sgMail.send(msg);
     return true;
   } catch (error) {
-    throw new Error();
+    console.log(error.message);
   }
 };
 
-module.exports = SendMsg;
+module.exports = { SendMsg };
