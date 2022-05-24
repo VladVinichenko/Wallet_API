@@ -1,7 +1,7 @@
 const { getTotalValue } = require('../../repository/transactions');
 
-const getBalanceService = user => {
-  return getTotalValue(user);
+const getBalanceService = async user => {
+  return await getTotalValue(user);
 };
 
 module.exports = {

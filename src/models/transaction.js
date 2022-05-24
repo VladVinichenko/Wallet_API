@@ -38,18 +38,31 @@ const trSchema = Schema(
   { versionKey: false, timestamps: true },
 );
 
-const joiSchema = Joi.object({
-  type: Joi.string().required(),
+const joiPostSchema = Joi.object({
+  type: Joi.string().valid('outlay', 'income').required(),
   category: Joi.string().required(),
   sum: Joi.string().required(),
   date: Joi.string().required(),
   comment: Joi.string(),
-  // owner: Joi.objectId().required(),
-  balance: Joi.string().required(),
+});
+
+const joiPaginateSchema = Joi.object({
+  page: Joi.number().greater(0),
+  limit: Joi.number().greater(0),
+});
+
+const joiStatisticsSchema = Joi.object({
+  month: Joi.number().min(1).max(12),
+  year: Joi.number().min(1970).max(new Date().getFullYear()),
 });
 
 trSchema.plugin(mongoosePaginate);
 
 const Transaction = model('transaction', trSchema);
 
-module.exports = { Transaction, joiSchema };
+module.exports = {
+  Transaction,
+  joiPostSchema,
+  joiPaginateSchema,
+  joiStatisticsSchema,
+};

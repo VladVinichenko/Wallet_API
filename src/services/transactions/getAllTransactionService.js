@@ -1,7 +1,7 @@
-const { getAllTransactionData } = require('../../repository/transactions');
+const { getAllTransactions } = require('../../repository/transactions');
 
-const getAllTransactionService = (user, limit, page) => {
-  return getAllTransactionData(user, limit, page);
+const getAllTransactionService = async (user, limit, page) => {
+  return await getAllTransactions(user, limit, page);
 };
 
 module.exports = {

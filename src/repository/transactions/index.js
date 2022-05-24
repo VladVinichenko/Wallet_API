@@ -1,11 +1,27 @@
 const { Transaction } = require('../../models');
 
-const getAllTransactionData = async (user, limit, page) => {
-  const { docs: transition, ...rest } = await Transaction.paginate(
+const getStatisticsByType = async (_id, type) => {
+  const allTransactions = await Transaction.find({ owner: _id, type });
+  const incomeStatistics = allTransactions.reduce((a, i) => {
+    return a + i.balance;
+  }, 0);
+  return incomeStatistics;
+};
+
+const getStatisticsByDate = async (_id, month, year) => {
+  const allTransactions = await Transaction.find({ owner: _id, month, year });
+  const statisticsByDate = allTransactions.reduce((a, i) => {
+    return a + i.balance;
+  }, 0);
+  return statisticsByDate;
+};
+
+const getAllTransactions = async (user, limit, page) => {
+  const { docs, ...rest } = await Transaction.paginate(
     { owner: user._id },
     { sort: { date: -1 }, limit, page },
   );
-  return { transition, ...rest };
+  return { transactions: docs, ...rest };
 };
 
 const getTotalValue = async user => {
@@ -94,7 +110,9 @@ const addTransaction = async (id, body) => {
 };
 
 module.exports = {
-  getAllTransactionData,
+  getStatisticsByType,
+  getStatisticsByDate,
+  getAllTransactions,
   getTotalValue,
   addTransaction,
 };

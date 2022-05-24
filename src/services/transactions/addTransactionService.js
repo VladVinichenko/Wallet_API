@@ -1,7 +1,8 @@
 const { addTransaction } = require('../../repository/transactions');
 
-const addTransactionService = (id, data) => {
-  return addTransaction(id, data);
+const addTransactionService = async (id, data) => {
+  const newTransaction = await addTransaction(id, data);
+  return newTransaction;
 };
 
 module.exports = {

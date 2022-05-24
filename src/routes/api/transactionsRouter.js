@@ -13,17 +13,23 @@ const {
 } = require('../../controllers/transactions');
 const { ctrlWrapper } = require('../../middlewares');
 // const { getStatisticsValidate } = require('../../middlewares');
-// const { getTransactionValidate } = require('../../middlewares');
+// const {
+//   getTransactionValidate,
+// } = require('../../middlewares/validationParamsMiddleware');
 
-const { joiSchema } = require('../../models/transaction');
+const {
+  joiPostSchema,
+  joiPaginateSchema,
+  joiStatisticsSchema,
+} = require('../../models/transaction');
 
 const router = express.Router();
 
 router.get(
   '/',
   authMiddleware,
-  // getTransactionValidate
-  // validationMiddleware(joiSchema),
+  // getTransactionValidate,
+  validationMiddleware(joiPaginateSchema, 'query'),
   ctrlWrapper(getAllTransactionsCtrl),
 );
 
@@ -32,7 +38,7 @@ router.get('/balance', authMiddleware, ctrlWrapper(getBalanceCtrl));
 router.get(
   '/statistics',
   authMiddleware,
-  validationMiddleware(joiSchema),
+  validationMiddleware(joiStatisticsSchema, 'query'),
   // getStatisticsValidate,
   ctrlWrapper(getStatisticsCtrl),
 );
@@ -46,7 +52,7 @@ router.get(
 router.post(
   '/',
   authMiddleware,
-  validationMiddleware(joiSchema),
+  validationMiddleware(joiPostSchema, 'body'),
   // validationMiddleware(schemaCreateTrasaction),
   ctrlWrapper(addTransactionCtrl),
 );

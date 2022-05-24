@@ -2,17 +2,20 @@
 const { getStatisticsService } = require('../../services/transactions');
 // /* const { Conflict, Unauthorized, NotFound, BadRequest } = require('http-errors'); */
 const getStatisticsCtrl = async (req, res) => {
-  getStatisticsService();
+  const { _id } = req.user;
+  const { month, year } = req.query;
+  const { incomeStatistics, outlayStatistics, statisticsByDate } =
+    await getStatisticsService(_id, month, year);
 
-  //   res.json({
-  //     status: 'success',
-  //     code: 200,
-  //     data: {
-  //       incomeStatistics,
-  //       totalOutlayStatistics,
-  //       statisticsByCategory,
-  //     },
-  //   });
+  res.json({
+    status: 'success',
+    code: 200,
+    data: {
+      incomeStatistics,
+      outlayStatistics,
+      statisticsByDate,
+    },
+  });
 };
 // function listByDate(trlist, month, year) {
 //   const searchMonth = Number(month);

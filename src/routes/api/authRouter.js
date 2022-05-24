@@ -18,7 +18,7 @@ const router = express.Router();
 
 router.post(
   '/signup',
-  validationMiddleware(joiSchema),
+  validationMiddleware(joiSchema, 'body'),
   ctrlWrapper(signUpCtrl),
 );
 
@@ -26,7 +26,7 @@ router.get('/verify/:verificationToken', ctrlWrapper(getVerifyCtrl));
 
 router.post(
   '/signin',
-  validationMiddleware(joiSchema),
+  validationMiddleware(joiSchema, 'body'),
   ctrlWrapper(signInCtrl),
 );
 
