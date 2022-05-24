@@ -1,7 +1,7 @@
-const FinanceService = require('../../services/finance');
+const { getBalanceService } = require('../../services/transactions');
 
 const getBalanceCtrl = async (req, res) => {
-  const balance = await FinanceService.getTotal(req.user);
+  const balance = await getBalanceService(req.user);
 
   res.status(200).json({
     status: 'OK',

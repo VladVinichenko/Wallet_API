@@ -1,4 +1,6 @@
 const { Schema, model } = require('mongoose');
+const Joi = require('joi');
+
 const categorySchema = Schema(
   {
     name: {
@@ -25,5 +27,9 @@ const categorySchema = Schema(
 
 const Category = model('category', categorySchema);
 
-module.exports = { Category };
-// module.exports = { Category, joiSchema };
+const joiSchema = Joi.object({
+  name: Joi.string().required(),
+  color: Joi.string().required(),
+});
+
+module.exports = { Category, joiSchema };

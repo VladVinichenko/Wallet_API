@@ -1,7 +1,9 @@
-const { Category } = require('../../models');
+// const { Category } = require('../../models');
+const { getCategoriesService } = require('../../services/categories');
 
 const getCategoriesCtrl = async (req, res, next) => {
-  const result = await Category.find();
+  // const result = await Category.find();
+  const result = getCategoriesService();
 
   res.status(200).json({
     status: 'OK',

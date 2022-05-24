@@ -10,6 +10,15 @@ const addRefreshTokenCookies = (res, refreshToken) => {
   });
 };
 
+const clearRefreshTokenCookies = res => {
+  return res.clearCookie('refreshToken', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV !== 'development',
+    sameSite: 'None',
+  });
+};
+
 module.exports = {
   addRefreshTokenCookies,
+  clearRefreshTokenCookies,
 };

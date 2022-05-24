@@ -9,6 +9,7 @@ const {
   authRouter,
   usersRouter,
   transactionsRouter,
+  categoriesRouter,
 } = require('./src/routes/api/index');
 const cookieParser = require('cookie-parser');
 
@@ -29,6 +30,7 @@ app.use(express.json());
 app.use('/api/auth', authRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/finance', transactionsRouter);
+app.use('/api/categories', categoriesRouter);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

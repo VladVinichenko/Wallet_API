@@ -1,10 +1,7 @@
-const FinanceService = require('../../services/finance');
+const { getAllTransactionService } = require('../../services/transactions');
 
 const getAllTransactionsCtrl = async (req, res) => {
-  const listTransaction = await FinanceService.getAllTransaction(
-    req.query,
-    req.user,
-  );
+  const listTransaction = await getAllTransactionService(req.query, req.user);
   res.status(200).json({
     status: 'OK',
     code: 200,

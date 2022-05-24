@@ -1,15 +1,16 @@
 const bcrypt = require('bcrypt');
 const { Conflict } = require('http-errors');
 const { SendMsg } = require('../../services/index');
-const { User } = require('../../models/index');
+// const { User } = require('../../models/index');
+const { findUser, createUser } = require('../../repository/auth');
 
 const { randomUUID } = require('crypto');
 
 const CLIENT_URL = process.env.CLIENT_URL;
 
 const signUpService = async (name, email, password) => {
-  const user = await User.findOne({ email });
-
+  // const user = await User.findOne({ email });
+  const user = await findUser(email);
   if (user) {
     throw Conflict(`User with ${email} already exist`);
     // return res.status(409).json(Conflict(`User with ${email} already exist`));
@@ -18,16 +19,17 @@ const signUpService = async (name, email, password) => {
   const verificationToken = randomUUID();
   const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
-  try {
-    await User.create({
-      name,
-      email,
-      password: hashPassword,
-      verificationToken,
-    });
-  } catch (error) {
-    throw new Error(error.message);
-  }
+  createUser(name, email, hashPassword, verificationToken);
+  // try {
+  //   await User.create({
+  //     name,
+  //     email,
+  //     password: hashPassword,
+  //     verificationToken,
+  //   });
+  // } catch (error) {
+  //   throw new Error(error.message);
+  // }
 
   const msg = {
     to: email,
@@ -39,6 +41,4 @@ const signUpService = async (name, email, password) => {
   SendMsg(msg);
 };
 
-module.exports = {
-  signUpService,
-};
+module.exports = signUpService;

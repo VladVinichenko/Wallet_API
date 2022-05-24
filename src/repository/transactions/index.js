@@ -1,7 +1,7 @@
-const { Finance } = require('../../models');
+const { Transition } = require('../../models');
 
 async function getAllTransactionData({ limit, page }, user) {
-  const { docs: transition, ...rest } = await Finance.paginate(
+  const { docs: transition, ...rest } = await Transition.paginate(
     { owner: user._id },
     { sort: { date: -1 }, limit, page },
   );
