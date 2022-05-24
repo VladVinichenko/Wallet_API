@@ -1,21 +1,21 @@
-const { Transition } = require('../../models');
+const { Transaction } = require('../../models');
 
 const getAllTransactionData = async (user, limit, page) => {
-  const { docs: transition, ...rest } = await Transition.paginate(
+  const { docs: transition, ...rest } = await Transaction.paginate(
     { owner: user._id },
     { sort: { date: -1 }, limit, page },
   );
   return { transition, ...rest };
 };
 
-async function getTotalValue(user) {
-  const data = await Transition.find({ owner: user._id }, { balance: 1 })
+const getTotalValue = async user => {
+  const data = await Transaction.find({ owner: user._id }, { balance: 1 })
     .sort({
       date: -1,
     })
     .limit(1);
 
-  const allDates = await Transition.find({ owner: user._id }, { date: 1 });
+  const allDates = await Transaction.find({ owner: user._id }, { date: 1 });
   const years = allDates.reduce((acc, obj) => {
     const year = obj.date.getFullYear();
     if (!acc.includes(year)) acc.push(year);
@@ -25,9 +25,9 @@ async function getTotalValue(user) {
   const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
   return { user: data[0], aviableStatistics: { years, months } };
-}
+};
 
-async function addTransaction(id, body) {
+const addTransaction = async (id, body) => {
   const { date, sum, type } = body;
   // console.log('body.date :>> ', date);
   // console.log('owner id :>> ', id);
@@ -41,7 +41,7 @@ async function addTransaction(id, body) {
 
   let newBalance = 0;
 
-  const LastBefore = await Transition.find({
+  const LastBefore = await Transaction.find({
     owner: id,
     $and: [{ date: { $lt: date } }],
   })
@@ -58,7 +58,7 @@ async function addTransaction(id, body) {
   const lastBalance = LastBefore[0]?.balance || 0;
 
   if (type === 'income') {
-    const updateManyResult = await Transition.updateMany(
+    const updateManyResult = await Transaction.updateMany(
       {
         owner: id,
         $and: [{ date: { $gt: date } }],
@@ -71,7 +71,7 @@ async function addTransaction(id, body) {
     lastBalance === 0 ? (newBalance = sum) : (newBalance = lastBalance + sum);
     console.log('newBalance :>> ', newBalance);
   } else {
-    const updateManyResult = await Transition.updateMany(
+    const updateManyResult = await Transaction.updateMany(
       {
         owner: id,
         $and: [{ date: { $gt: date } }],
@@ -85,13 +85,13 @@ async function addTransaction(id, body) {
     console.log('newBalance :>> ', newBalance);
   }
 
-  const newTransaction = await Transition.create({
+  const newTransaction = await Transaction.create({
     ...body,
     owner: id,
     balance: newBalance,
   });
   return newTransaction;
-}
+};
 
 module.exports = {
   getAllTransactionData,
