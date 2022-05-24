@@ -6,7 +6,7 @@ const cookiesSave = async (res, key, data) => {
     // httpOnly: true,
     // signed: true,
     // secure: process.env.NODE_ENV !== 'development',
-    // sameSite: process.env.NODE_ENV !== 'development' && 'None',
+    sameSite: process.env.NODE_ENV !== 'development' && 'None',
   });
 };
 
