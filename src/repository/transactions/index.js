@@ -46,15 +46,6 @@ const getBalance = async user => {
 
 const addTransaction = async (id, body) => {
   const { date, sum, type } = body;
-  // console.log('body.date :>> ', date);
-  // console.log('owner id :>> ', id);
-  // console.log('sum :>> ', sum);
-
-  // const olderTrasactions = await Finance.find({
-  //   owner: id,
-  //   $and: [{ date: { $gt: date } }],
-  // });
-  // console.log('olderTrasactions :>> ', olderTrasactions);
 
   let newBalance = 0;
 
@@ -66,16 +57,11 @@ const addTransaction = async (id, body) => {
       date: -1,
     })
     .limit(1);
-  // console.log('LastBefore :>> ', LastBefore);
-  // console.log('object', LastBefore.length);
-  // console.log('Last not exist :>> ', Boolean(LastBefore.length === 0));
-  // console.log('LastBefore.balance :>> ', LastBefore[0]?.balance);
-  // console.log('type', type, sum);
 
   const lastBalance = LastBefore[0]?.balance || 0;
 
   if (type === 'income') {
-    const updateManyResult = await Transaction.updateMany(
+    await Transaction.updateMany(
       {
         owner: id,
         $and: [{ date: { $gt: date } }],
@@ -83,12 +69,11 @@ const addTransaction = async (id, body) => {
       { $inc: { balance: sum } },
       { new: true },
     );
-    // console.log('updateManyResult :>> ', updateManyResult);
 
     lastBalance === 0 ? (newBalance = sum) : (newBalance = lastBalance + sum);
     console.log('newBalance :>> ', newBalance);
   } else {
-    const updateManyResult = await Transaction.updateMany(
+    await Transaction.updateMany(
       {
         owner: id,
         $and: [{ date: { $gt: date } }],
@@ -96,7 +81,6 @@ const addTransaction = async (id, body) => {
       { $inc: { balance: -sum } },
       { new: true },
     );
-    // console.log('updateManyResult :>> ', updateManyResult);
 
     lastBalance === 0 ? (newBalance = -sum) : (newBalance = lastBalance - sum);
     console.log('newBalance :>> ', newBalance);

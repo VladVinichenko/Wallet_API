@@ -42,7 +42,7 @@ const joiPostSchema = Joi.object({
   category: Joi.string().required(),
   sum: Joi.alternatives().try(Joi.string(), Joi.number()).required(),
   date: Joi.string().required(),
-  comment: Joi.string(),
+  comment: Joi.string().allow(''),
 });
 
 const joiPaginateSchema = Joi.object({
