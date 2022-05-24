@@ -12,9 +12,24 @@ const getStatistics = async (_id, year, month) => {
       .filter(i => i.type === type)
       .reduce((a, i) => a + i.sum, 0);
   };
+  const uniqCategory = () => {
+    const result = [];
+    statisticsByDate.forEach(function (a) {
+      if (!this[a.category]) {
+        this[a.category] = {
+          category: a.category,
+          sum: 0,
+        };
+        result.push(this[a.category]);
+      }
+      this[a.category].sum += a.sum;
+    }, Object.create(null));
+    return result;
+  };
   const incomeStatistics = countStat('income');
   const outlayStatistics = countStat('outlay');
-  return { incomeStatistics, outlayStatistics, statisticsByDate };
+  const statisticsByCategory = uniqCategory();
+  return { incomeStatistics, outlayStatistics, statisticsByCategory };
 };
 
 const getAllTransactions = async (user, limit, page) => {
