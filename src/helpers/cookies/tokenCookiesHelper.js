@@ -1,7 +1,7 @@
 const dayjs = require('dayjs');
 
-const addRefreshTokenCookies = (res, refreshToken) => {
-  return res.cookie('refreshToken', refreshToken, {
+const addRefreshTokenCookies = async (res, refreshToken) => {
+  return await res.cookie('refreshToken', refreshToken, {
     expires: dayjs().add(1, 'days').toDate(),
     httpOnly: true,
     signed: true,
@@ -10,8 +10,8 @@ const addRefreshTokenCookies = (res, refreshToken) => {
   });
 };
 
-const clearRefreshTokenCookies = res => {
-  return res.clearCookie('refreshToken', {
+const clearRefreshTokenCookies = async res => {
+  return await res.clearCookie('refreshToken', {
     httpOnly: true,
     secure: process.env.NODE_ENV !== 'development',
     sameSite: process.env.NODE_ENV !== 'development' && 'None',
