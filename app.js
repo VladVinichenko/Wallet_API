@@ -10,6 +10,7 @@ const {
   usersRouter,
   transactionsRouter,
   categoriesRouter,
+  financesRouter,
 } = require('./src/routes/api/index');
 const cookieParser = require('cookie-parser');
 
@@ -31,6 +32,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/transactions', transactionsRouter);
 app.use('/api/categories', categoriesRouter);
+app.use('/api/finances', financesRouter);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
