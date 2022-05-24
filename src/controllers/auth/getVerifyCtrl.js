@@ -1,9 +1,9 @@
-const getVerifyService = require('../../services/auth');
+const { getVerifyService } = require('../../services/auth');
 
 const getVerifyCtrl = async (req, res, next) => {
   const { verificationToken } = req.params;
 
-  getVerifyService(verificationToken);
+  await getVerifyService(verificationToken);
 
   return res.status(200).json({
     status: 'success',

@@ -4,7 +4,7 @@ const { generateAccessToken, generateRefreshToken } = require('../../helpers');
 const { Unauthorized } = require('http-errors');
 // const { User } = require('../../models/index');
 
-const { findUser, updateTokens } = require('../../repository/auth');
+const { findUserByEmail, updateTokens } = require('../../repository/auth');
 
 // const {
 //   addRefreshTokenCookies,
@@ -12,9 +12,8 @@ const { findUser, updateTokens } = require('../../repository/auth');
 
 const signInService = async (email, password) => {
   //   const { email, password } = req.body;
-
   //   const user = await User.findOne({ email });
-  const user = await findUser(email);
+  const user = await findUserByEmail(email);
   if (!user) {
     throw Unauthorized(`Email ${email} not found`);
     // return res.status(401).json(Unauthorized(`Email ${email} not found`));
@@ -35,12 +34,12 @@ const signInService = async (email, password) => {
   const accessToken = generateAccessToken(user._id);
   const refreshToken = generateRefreshToken();
 
-  updateTokens(accessToken, refreshToken);
+  await updateTokens(user._id, accessToken, refreshToken);
   //   await User.findByIdAndUpdate(user._id, { accessToken, refreshToken });
 
   //   addRefreshTokenCookies(res, refreshToken);
 
-  return { accessToken, refreshToken, user };
+  return { user, accessToken, refreshToken };
 };
 
 module.exports = { signInService };

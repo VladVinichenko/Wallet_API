@@ -1,12 +1,12 @@
 // const { User } = require('../../models/index');
 
-const { findUser, verifyUser } = require('../../repository/auth');
+const { findUserByVerif, verifyUser } = require('../../repository/auth');
 
 const getVerifyService = async verificationToken => {
   //   const { verificationToken } = req.params;
 
   //   const user = await User.findOne({ verificationToken });
-  const user = findUser(verificationToken);
+  const user = await findUserByVerif(verificationToken);
   if (!user) {
     throw new Error('User not found');
     // return res.status(404).json({
@@ -16,7 +16,7 @@ const getVerifyService = async verificationToken => {
     // });
   }
 
-  verifyUser(verificationToken);
+  await verifyUser(verificationToken);
   //   await User.findOneAndUpdate(
   //     { verificationToken },
   //     {

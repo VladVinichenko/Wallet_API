@@ -9,9 +9,9 @@ const jwt = require('jsonwebtoken');
 
 // const { User } = require('../../models/index');
 
-const { findUser, updateTokens } = require('../../repository/auth');
+const { findUserByToken, updateTokens } = require('../../repository/auth');
 
-const refreshTokenCtrl = async refreshToken => {
+const refreshTokenService = async refreshToken => {
   if (!refreshToken) {
     throw Unauthorized('Not authorized');
     // return res.status(401).json(Unauthorized('Not authorized'));
@@ -22,9 +22,9 @@ const refreshTokenCtrl = async refreshToken => {
   } catch (error) {
     throw new Error(error.message);
   }
-
   //   const user = await User.findOne({ refreshToken });
-  const user = findUser(refreshToken);
+  const user = await findUserByToken(refreshToken);
+
   if (!user) {
     throw Unauthorized('Not authorized');
     // return res.status(401).json(Unauthorized('Not authorized'));
@@ -33,7 +33,9 @@ const refreshTokenCtrl = async refreshToken => {
   const newAccessToken = generateAccessToken(user._id);
   const newRefreshToken = generateRefreshToken();
 
-  updateTokens(newAccessToken, newRefreshToken);
+  //   console.log(user._id, newAccessToken, newRefreshToken);
+
+  await updateTokens(user._id, newAccessToken, newRefreshToken);
   //   await User.findByIdAndUpdate(user._id, {
   //     accessToken: newAccessToken,
   //     refreshToken: newRefreshToken,
@@ -41,7 +43,7 @@ const refreshTokenCtrl = async refreshToken => {
 
   //   addRefreshTokenCookies(res, newRefreshToken);
 
-  return newAccessToken;
+  return { newAccessToken, newRefreshToken };
 };
 
-module.exports = { refreshTokenCtrl };
+module.exports = { refreshTokenService };

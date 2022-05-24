@@ -1,13 +1,15 @@
-const refreshTokenService = require('../../services/auth');
+const { refreshTokenService } = require('../../services/auth');
 
 const { addRefreshTokenCookies } = require('../../helpers');
 
 const refreshTokenCtrl = async (req, res, next) => {
   const { refreshToken } = req.signedCookies;
 
-  const newAccessToken = refreshTokenService(refreshToken);
+  const { newAccessToken, newRefreshToken } = await refreshTokenService(
+    refreshToken,
+  );
 
-  addRefreshTokenCookies(res, newRefreshToken);
+  await addRefreshTokenCookies(res, newRefreshToken);
 
   res.json({
     status: 'success',

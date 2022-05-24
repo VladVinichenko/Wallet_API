@@ -1,13 +1,13 @@
-const signOutService = require('../../services/auth');
+const { signOutService } = require('../../services/auth');
 
 const { clearRefreshTokenCookies } = require('../../helpers');
 
 const signOutCtrl = async (req, res, next) => {
   const { refreshToken } = req.signedCookies;
 
-  signOutService(refreshToken);
+  await signOutService(refreshToken);
 
-  clearRefreshTokenCookies(res);
+  await clearRefreshTokenCookies(res);
 
   return res.status(204).json();
 };

@@ -5,7 +5,7 @@ const { Unauthorized } = require('http-errors');
 //   clearRefreshTokenCookies,
 // } = require('../../helpers/cookies/refreshTokenCookies');
 
-const { findUser, clearTokens } = require('../../repository/auth');
+const { findUserByToken, clearTokens } = require('../../repository/auth');
 
 const signOutService = async refreshToken => {
   if (!refreshToken) {
@@ -13,13 +13,13 @@ const signOutService = async refreshToken => {
     // return res.status(401).json(Unauthorized('Not authorized'));
   }
   //   const user = await User.findOne({ refreshToken });
-  const user = findUser(refreshToken);
+  const user = await findUserByToken(refreshToken);
 
   if (!user) {
     throw Unauthorized('Not authorized');
     // return res.status(401).json(Unauthorized('Not authorized'));
   }
-  clearTokens(refreshToken);
+  await clearTokens(refreshToken);
   //   await User.findOneAndUpdate(
   //     { refreshToken },
   //     {

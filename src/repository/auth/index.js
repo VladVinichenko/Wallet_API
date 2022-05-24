@@ -1,19 +1,30 @@
-const { User } = require('../../models/index');
+const { User } = require('../../models');
 
-const findUser = data => {
-  const user = User.findOne({ data });
+const findUserByEmail = async email => {
+  const user = await User.findOne({ email });
   return user;
 };
 
-const updateTokens = (user, accessToken, refreshToken) => {
-  User.findByIdAndUpdate(user._id, {
+const findUserByToken = async refreshToken => {
+  const user = await User.findOne({ refreshToken });
+  return user;
+};
+
+const findUserByVerif = async verificationToken => {
+  const user = await User.findOne({ verificationToken });
+  return user;
+};
+
+const updateTokens = async (_id, accessToken, refreshToken) => {
+  // console.log({ _id, accessToken, refreshToken });
+  await User.findByIdAndUpdate(_id, {
     accessToken,
     refreshToken,
   });
 };
 
-const verifyUser = verificationToken => {
-  User.findOneAndUpdate(
+const verifyUser = async verificationToken => {
+  await User.findOneAndUpdate(
     { verificationToken },
     {
       verificationToken: null,
@@ -22,8 +33,8 @@ const verifyUser = verificationToken => {
   );
 };
 
-const clearTokens = refreshToken => {
-  User.findOneAndUpdate(
+const clearTokens = async refreshToken => {
+  await User.findOneAndUpdate(
     { refreshToken },
     {
       accessToken: null,
@@ -32,8 +43,8 @@ const clearTokens = refreshToken => {
   );
 };
 
-const createUser = (name, email, hashPassword, verificationToken) => {
-  User.create({
+const createUser = async (name, email, hashPassword, verificationToken) => {
+  await User.create({
     name,
     email,
     password: hashPassword,
@@ -42,7 +53,9 @@ const createUser = (name, email, hashPassword, verificationToken) => {
 };
 
 module.exports = {
-  findUser,
+  findUserByEmail,
+  findUserByToken,
+  findUserByVerif,
   updateTokens,
   verifyUser,
   clearTokens,

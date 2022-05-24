@@ -1,13 +1,16 @@
-const signInService = require('../../services/auth');
+const { signInService } = require('../../services/auth');
 
 const { addRefreshTokenCookies } = require('../../helpers');
 
 const signInCtrl = async (req, res, next) => {
   const { email, password } = req.body;
 
-  const { accessToken, refreshToken, user } = signInService(email, password);
+  const { accessToken, refreshToken, user } = await signInService(
+    email,
+    password,
+  );
 
-  addRefreshTokenCookies(res, refreshToken);
+  await addRefreshTokenCookies(res, refreshToken);
 
   return res.json({
     status: 'success',
