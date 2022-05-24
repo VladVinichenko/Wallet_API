@@ -2,7 +2,7 @@ const { getStatisticsService } = require('../../services/transactions');
 const getStatisticsCtrl = async (req, res) => {
   const { _id } = req.user;
   const { month, year } = req.query;
-  const { incomeStatistics, outlayStatistics, statisticsByDate } =
+  const { incomeStatistics, outlayStatistics, statisticsByCategory } =
     await getStatisticsService(_id, year, month);
 
   res.json({
@@ -11,7 +11,7 @@ const getStatisticsCtrl = async (req, res) => {
     data: {
       incomeStatistics,
       outlayStatistics,
-      statisticsByDate,
+      statisticsByCategory,
     },
   });
 };
