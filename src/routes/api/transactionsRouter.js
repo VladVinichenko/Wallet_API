@@ -3,14 +3,14 @@ const express = require('express');
 const {
   authMiddleware,
   validationMiddleware,
-} = require('../../middlewares/index');
+  ctrlWrapper,
+} = require('../../middlewares');
 const {
   getAllTransactionsCtrl,
   getBalanceCtrl,
   getStatisticsCtrl,
   addTransactionCtrl,
 } = require('../../controllers/transactions');
-const { ctrlWrapper } = require('../../middlewares');
 
 const {
   joiPostSchema,

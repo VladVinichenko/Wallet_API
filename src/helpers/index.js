@@ -2,6 +2,7 @@ const {
   addRefreshTokenCookies,
   clearRefreshTokenCookies,
 } = require('./cookies/tokenCookiesHelper');
+const { cookiesSave } = require('./cookies/cookiesSave');
 const {
   generateAccessToken,
   generateRefreshToken,
@@ -10,6 +11,7 @@ const {
 module.exports = {
   addRefreshTokenCookies,
   clearRefreshTokenCookies,
+  cookiesSave,
   generateAccessToken,
   generateRefreshToken,
 };

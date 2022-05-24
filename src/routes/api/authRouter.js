@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { validationMiddleware } = require('../../middlewares/index');
+const { validationMiddleware, ctrlWrapper } = require('../../middlewares');
 
 const {
   signUpCtrl,
@@ -9,8 +9,6 @@ const {
   signOutCtrl,
   refreshTokenCtrl,
 } = require('../../controllers/auth/index');
-
-const { ctrlWrapper } = require('../../middlewares');
 
 const { joiSchema } = require('../../models/user');
 
