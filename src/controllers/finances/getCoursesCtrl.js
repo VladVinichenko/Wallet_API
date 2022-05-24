@@ -6,12 +6,6 @@ const getCoursesCtrl = async (req, res) => {
   await cookiesSave(res, 'courses', courses);
 
   return res.status(200).json();
-  //   return res.status(200).json({
-  //     status: 'OK',
-  //     code: 200,
-  //     message: 'All Courses',
-  //     data: courses,
-  //   });
 };
 
 module.exports = {
