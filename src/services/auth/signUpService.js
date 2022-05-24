@@ -25,7 +25,11 @@ const signUpService = async (name, email, password) => {
     html: `Перейди по <a href="${CLIENT_URL}/verify/${verificationToken}">ссылке</a> для верификации`,
   };
 
-  SendMsg(msg);
+  try {
+    SendMsg(msg);
+  } catch (error) {
+    throw new Error(error.message);
+  }
 };
 
 module.exports = { signUpService };
