@@ -1,8 +1,8 @@
 // const { Transaction } = require('../../models');
-const { getStatisticsServise } = require('../../services/transactions');
+const { getStatisticsService } = require('../../services/transactions');
 // /* const { Conflict, Unauthorized, NotFound, BadRequest } = require('http-errors'); */
 const getStatisticsCtrl = async (req, res) => {
-  getStatisticsServise();
+  getStatisticsService();
 
   //   res.json({
   //     status: 'success',

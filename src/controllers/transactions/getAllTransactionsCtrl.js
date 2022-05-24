@@ -1,7 +1,9 @@
 const { getAllTransactionService } = require('../../services/transactions');
 
 const getAllTransactionsCtrl = async (req, res) => {
-  const listTransaction = await getAllTransactionService(req.query, req.user);
+  const { limit = 10, page = 1 } = req.query;
+  const user = req.user;
+  const listTransaction = await getAllTransactionService(user, limit, page);
   res.status(200).json({
     status: 'OK',
     code: 200,

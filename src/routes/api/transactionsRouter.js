@@ -23,7 +23,7 @@ router.get(
   '/',
   authMiddleware,
   // getTransactionValidate
-  validationMiddleware(joiSchema),
+  // validationMiddleware(joiSchema),
   ctrlWrapper(getAllTransactionsCtrl),
 );
 

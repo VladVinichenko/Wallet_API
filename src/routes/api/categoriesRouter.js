@@ -15,7 +15,6 @@ const router = express.Router();
 router.get(
   '/',
   // getCategories.getCategories,
-  validationMiddleware(joiSchema),
   ctrlWrapper(getCategoriesCtrl),
 );
 

@@ -1,12 +1,12 @@
 const { Transition } = require('../../models');
 
-async function getAllTransactionData({ limit, page }, user) {
+const getAllTransactionData = async (user, limit, page) => {
   const { docs: transition, ...rest } = await Transition.paginate(
     { owner: user._id },
     { sort: { date: -1 }, limit, page },
   );
   return { transition, ...rest };
-}
+};
 
 async function getTotalValue(user) {
   const data = await Transition.find({ owner: user._id }, { balance: 1 })

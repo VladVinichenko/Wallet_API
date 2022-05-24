@@ -1,5 +1,5 @@
-const { getCategoriesServise } = require('./getCategoriesServise');
+const { getCategoriesService } = require('./getCategoriesService');
 
 module.exports = {
-  getCategoriesServise,
+  getCategoriesService,
 };
