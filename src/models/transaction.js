@@ -40,14 +40,14 @@ const trSchema = Schema(
 const joiPostSchema = Joi.object({
   type: Joi.string().valid('outlay', 'income').required(),
   category: Joi.string().required(),
-  sum: Joi.string().required(),
+  sum: Joi.alternatives().try(Joi.string(), Joi.number()).required(),
   date: Joi.string().required(),
   comment: Joi.string(),
 });
 
 const joiPaginateSchema = Joi.object({
-  page: Joi.number().greater(0),
-  limit: Joi.number().greater(0),
+  page: Joi.string().greater(0),
+  limit: Joi.string().greater(0),
 });
 
 const joiStatisticsSchema = Joi.object({
