@@ -109,9 +109,31 @@ const addTransaction = async (id, body) => {
   return newTransaction;
 };
 
+const deleteTransaction = async (uid, ObjectID) => {
+  console.log({ ObjectID });
+  const deleteTransaction = await Transaction.findOneAndDelete({
+    owner: uid,
+    _id: ObjectID,
+  });
+  return deleteTransaction;
+};
+
+const updateTransaction = async (uid, ObjectID, body) => {
+  const updateTransaction = await Transaction.findOneAndUpdate(
+    { owner: uid, _id: ObjectID },
+    body,
+    {
+      new: true,
+    },
+  );
+  return updateTransaction;
+};
+
 module.exports = {
   getStatistics,
   getAllTransactions,
   getBalance,
   addTransaction,
+  deleteTransaction,
+  updateTransaction,
 };

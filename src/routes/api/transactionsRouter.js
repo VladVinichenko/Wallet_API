@@ -10,6 +10,8 @@ const {
   getBalanceCtrl,
   getStatisticsCtrl,
   addTransactionCtrl,
+  deleteTransactionCtrl,
+  putTransactionCtrl,
 } = require('../../controllers/transactions');
 
 const {
@@ -41,6 +43,15 @@ router.post(
   authMiddleware,
   validationMiddleware(joiPostSchema, 'body'),
   ctrlWrapper(addTransactionCtrl),
+);
+
+router.delete('/:id', authMiddleware, ctrlWrapper(deleteTransactionCtrl));
+
+router.put(
+  '/:id',
+  authMiddleware,
+  validationMiddleware(joiPostSchema, 'body'),
+  ctrlWrapper(putTransactionCtrl),
 );
 
 module.exports = router;
