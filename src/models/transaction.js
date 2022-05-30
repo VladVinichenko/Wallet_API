@@ -53,6 +53,7 @@ const joiPaginateSchema = Joi.object({
 const joiStatisticsSchema = Joi.object({
   month: Joi.number().min(1).max(12),
   year: Joi.number().min(1970).max(new Date().getFullYear()),
+  day: Joi.number().min(1).max(31),
 });
 
 trSchema.plugin(mongoosePaginate);

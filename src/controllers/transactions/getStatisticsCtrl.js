@@ -1,9 +1,9 @@
 const { getStatisticsService } = require('../../services/transactions');
 const getStatisticsCtrl = async (req, res) => {
   const { _id } = req.user;
-  const { month, year } = req.query;
+  const { month, year, day } = req.query;
   const { incomeStatistics, outlayStatistics, statisticsByCategory } =
-    await getStatisticsService(_id, year, month);
+    await getStatisticsService(_id, year, month, day);
 
   res.json({
     status: 'success',

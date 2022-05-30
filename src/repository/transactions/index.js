@@ -1,8 +1,17 @@
 const { Transaction } = require('../../models');
 
-const getStatistics = async (_id, year, month) => {
-  const startDate = new Date(year, month - 1);
-  const endDate = new Date(year, month);
+const getStatistics = async (_id, year, month, day) => {
+  let startDate = null;
+  let endDate = null;
+
+  if (day !== undefined) {
+    startDate = new Date(year, month - 1, day);
+    endDate = new Date(year, month, day + 1);
+  } else {
+    startDate = new Date(year, month - 1);
+    endDate = new Date(year, month);
+  }
+
   const statisticsByDate = await Transaction.find({
     owner: _id,
     $and: [{ date: { $gte: startDate } }, { date: { $lt: endDate } }],
@@ -53,6 +62,16 @@ const getBalance = async user => {
     if (!acc.includes(year)) acc.push(year);
     return acc;
   }, []);
+  // const months = allDates.reduce((acc, obj) => {
+  //   const months = obj.date.getFullYear();
+  //   if (!acc.includes(months)) acc.push(months);
+  //   return acc;
+  // }, []);
+  // const day = allDates.reduce((acc, obj) => {
+  //   const day = obj.date.getFullYear();
+  //   if (!acc.includes(day)) acc.push(day);
+  //   return acc;
+  // }, []);
 
   const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
