@@ -242,7 +242,7 @@ const updateTransaction = async (uid, ObjectID, body) => {
   //   );
   // }
   recalcTransactions('delete', type, date, sum, uid);
-  recalcTransactions('add', type, date, sum, uid);
+  recalcTransactions('add', body.type, body.date, body.sum, uid);
 
   const updateTransaction = await Transaction.findOneAndUpdate(
     { owner: uid, _id: ObjectID },
