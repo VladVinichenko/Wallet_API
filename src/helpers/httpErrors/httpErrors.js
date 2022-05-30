@@ -1,6 +1,6 @@
 const { Unauthorized, Conflict, NotFound } = require('http-errors');
 
-const conflictSwitch = type => {
+const conflictSwitch = (type, email) => {
   switch (type) {
     case 'emailExist':
       Conflict(`User with ${email} already exist`);
@@ -12,7 +12,7 @@ const conflictSwitch = type => {
 };
 // Conflict(`User with ${email} already exist`);
 
-const unauthorizedSwitch = type => {
+const unauthorizedSwitch = (type, email) => {
   switch (type) {
     case 'base':
       Unauthorized('Not authorized');

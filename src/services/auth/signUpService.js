@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
-const { Conflict } = require('http-errors');
+// const { Conflict } = require('http-errors');
+const { conflictSwitch } = require('../../helpers');
 const { SendMsg } = require('../mailer');
 const { findUserByEmail, createUser } = require('../../repository/auth');
 
@@ -10,7 +11,8 @@ const CLIENT_URL = process.env.CLIENT_URL;
 const signUpService = async (name, email, password) => {
   const user = await findUserByEmail(email);
   if (user) {
-    throw Conflict(`User with ${email} already exist`);
+    throw conflictSwitch('emailExist', email);
+    // throw Conflict(`User with ${email} already exist`);
   }
 
   const verificationToken = randomUUID();

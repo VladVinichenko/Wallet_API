@@ -7,6 +7,11 @@ const {
   generateAccessToken,
   generateRefreshToken,
 } = require('./jwt/tokenGenerateHelper');
+const {
+  conflictSwitch,
+  unauthorizedSwitch,
+  notFoundSwitch,
+} = require('./httpErrors/httpErrors');
 
 module.exports = {
   addRefreshTokenCookies,
@@ -14,4 +19,7 @@ module.exports = {
   cookiesSave,
   generateAccessToken,
   generateRefreshToken,
+  conflictSwitch,
+  unauthorizedSwitch,
+  notFoundSwitch,
 };
