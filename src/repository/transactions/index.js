@@ -1,5 +1,50 @@
 const { Transaction } = require('../../models');
 
+const recalcTransactions = async (operationType, type, date, sum, uid) => {
+  if (type === 'income') {
+    await Transaction.updateMany(
+      {
+        owner: uid,
+        date: { $gt: date },
+      },
+      { $inc: { balance: operationType === 'add' ? sum : -sum } },
+      { new: true },
+    );
+  } else {
+    await Transaction.updateMany(
+      {
+        owner: uid,
+        date: { $gt: date },
+      },
+      { $inc: { balance: operationType === 'add' ? -sum : sum } },
+      { new: true },
+    );
+  }
+};
+
+const recalcBalance = async (type, uid, date, sum) => {
+  let newBalance = 0;
+
+  const LastBefore = await Transaction.find({
+    owner: uid,
+    date: { $lt: date },
+  })
+    .sort({
+      date: -1,
+    })
+    .limit(1);
+
+  const lastBalance = LastBefore[0]?.balance || 0;
+
+  if (type === 'income') {
+    lastBalance === 0 ? (newBalance = sum) : (newBalance = lastBalance + sum);
+  } else {
+    lastBalance === 0 ? (newBalance = -sum) : (newBalance = lastBalance - sum);
+  }
+
+  return newBalance;
+};
+
 const getStatistics = async (_id, year, month) => {
   const startDate = new Date(year, month - 1);
   const endDate = new Date(year, month);
@@ -59,58 +104,91 @@ const getBalance = async user => {
   return { user: data[0], aviableStatistics: { years, months } };
 };
 
-const addTransaction = async (id, body) => {
+const addTransaction = async (uid, body) => {
   const { date, sum, type } = body;
 
-  let newBalance = 0;
+  const newBalance = recalcBalance(type, uid, date, sum);
 
-  const LastBefore = await Transaction.find({
-    owner: id,
-    $and: [{ date: { $lt: date } }],
-  })
-    .sort({
-      date: -1,
-    })
-    .limit(1);
+  // const LastBefore = await Transaction.find({
+  //   owner: uid,
+  //   date: { $lt: date },
+  // })
+  //   .sort({
+  //     date: -1,
+  //   })
+  //   .limit(1);
 
-  const lastBalance = LastBefore[0]?.balance || 0;
+  // const lastBalance = LastBefore[0]?.balance || 0;
 
-  if (type === 'income') {
-    await Transaction.updateMany(
-      {
-        owner: id,
-        $and: [{ date: { $gt: date } }],
-      },
-      { $inc: { balance: sum } },
-      { new: true },
-    );
+  // if (type === 'income') {
+  //   lastBalance === 0 ? (newBalance = sum) : (newBalance = lastBalance + sum);
+  // } else {
+  //   lastBalance === 0 ? (newBalance = -sum) : (newBalance = lastBalance - sum);
+  // }
 
-    lastBalance === 0 ? (newBalance = sum) : (newBalance = lastBalance + sum);
-    console.log('newBalance :>> ', newBalance);
-  } else {
-    await Transaction.updateMany(
-      {
-        owner: id,
-        $and: [{ date: { $gt: date } }],
-      },
-      { $inc: { balance: -sum } },
-      { new: true },
-    );
+  // if (type === 'income') {
+  //   await Transaction.updateMany(
+  //     {
+  //       owner: id,
+  //       date: { $gt: date },
+  //     },
+  //     { $inc: { balance: sum } },
+  //     { new: true },
+  //   );
 
-    lastBalance === 0 ? (newBalance = -sum) : (newBalance = lastBalance - sum);
-    console.log('newBalance :>> ', newBalance);
-  }
+  //   lastBalance === 0 ? (newBalance = sum) : (newBalance = lastBalance + sum);
+  //   // console.log('newBalance :>> ', newBalance);
+  // } else {
+  //   await Transaction.updateMany(
+  //     {
+  //       owner: id,
+  //       date: { $gt: date },
+  //     },
+  //     { $inc: { balance: -sum } },
+  //     { new: true },
+  //   );
+
+  //   lastBalance === 0 ? (newBalance = -sum) : (newBalance = lastBalance - sum);
+  //   // console.log('newBalance :>> ', newBalance);
+  // }
+  recalcTransactions('add', type, date, sum, uid);
 
   const newTransaction = await Transaction.create({
     ...body,
-    owner: id,
+    owner: uid,
     balance: newBalance,
   });
   return newTransaction;
 };
 
 const deleteTransaction = async (uid, ObjectID) => {
-  console.log({ ObjectID });
+  const { date, sum, type } = await Transaction.findOne({
+    owner: uid,
+    _id: ObjectID,
+  });
+  // console.log({ ObjectID });
+
+  // if (type === 'income') {
+  //   await Transaction.updateMany(
+  //     {
+  //       owner: uid,
+  //       date: { $gt: date },
+  //     },
+  //     { $inc: { balance: -sum } },
+  //     { new: true },
+  //   );
+  // } else {
+  //   await Transaction.updateMany(
+  //     {
+  //       owner: uid,
+  //       date: { $gt: date },
+  //     },
+  //     { $inc: { balance: sum } },
+  //     { new: true },
+  //   );
+  // }
+  recalcTransactions('delete', type, date, sum, uid);
+
   const deleteTransaction = await Transaction.findOneAndDelete({
     owner: uid,
     _id: ObjectID,
@@ -119,9 +197,56 @@ const deleteTransaction = async (uid, ObjectID) => {
 };
 
 const updateTransaction = async (uid, ObjectID, body) => {
+  const { date, sum, type } = await Transaction.findOne({
+    owner: uid,
+    _id: ObjectID,
+  });
+
+  const newBalance = recalcBalance(type, uid, date, sum);
+  // let newBalance = 0;
+
+  // const LastBefore = await Transaction.find({
+  //   owner: uid,
+  //   date: { $lt: date },
+  // })
+  //   .sort({
+  //     date: -1,
+  //   })
+  //   .limit(1);
+
+  // const lastBalance = LastBefore[0]?.balance || 0;
+
+  // if (type === 'income') {
+  //   lastBalance === 0 ? (newBalance = sum) : (newBalance = lastBalance + sum);
+  // } else {
+  //   lastBalance === 0 ? (newBalance = -sum) : (newBalance = lastBalance - sum);
+  // }
+
+  // if (type === 'income') {
+  //   await Transaction.updateMany(
+  //     {
+  //       owner: uid,
+  //       date: { $gt: date },
+  //     },
+  //     { $inc: { balance: -sum } },
+  //     { new: true },
+  //   );
+  // } else {
+  //   await Transaction.updateMany(
+  //     {
+  //       owner: uid,
+  //       date: { $gt: date },
+  //     },
+  //     { $inc: { balance: sum } },
+  //     { new: true },
+  //   );
+  // }
+  recalcTransactions('delete', type, date, sum, uid);
+  recalcTransactions('add', type, date, sum, uid);
+
   const updateTransaction = await Transaction.findOneAndUpdate(
     { owner: uid, _id: ObjectID },
-    body,
+    { ...body, balance: newBalance },
     {
       new: true,
     },
